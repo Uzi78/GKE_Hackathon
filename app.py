@@ -3,34 +3,42 @@ Travel & Culture-Aware Shopping Chatbot Backend
 Flask service that orchestrates AI agent and API calls for GKE Turns 10 Hackathon
 """
 
-from flask import Flask, request, jsonify, render_template_string
+from flask import Flask, request, jsonify, render_template_string, send_from_directory
 from flask_cors import CORS
 import json
 import logging
 import traceback
 from datetime import datetime
 import os
+from ai_agent import TravelShoppingAgent
 
-# Import your team members' modules (adjust imports based on actual file structure)
-# from ai_agent import TravelShoppingAgent  # Member A's AI agent code
-# from api_integrations import WeatherAPI, CatalogAPI  # Member B's API code
+# Import the API services
+from weather_service import WeatherService
+from product_service import ProductService
 
 app = Flask(__name__)
 CORS(app)  # Enable CORS for frontend integration
 
 # Configure logging
-logging.basicConfig(level=logging.INFO)
+logging.basicConfig(
+    level=logging.INFO,
+    format='%(asctime)s - %(name)s - %(levelname)s - %(message)s'
+)
 logger = logging.getLogger(__name__)
 
 class ChatbotOrchestrator:
     """Main orchestrator class that coordinates AI agent and API calls"""
     
     def __init__(self):
-        # Initialize your team members' components
-        # self.ai_agent = TravelShoppingAgent()  # Member A's code
-        # self.weather_api = WeatherAPI()        # Member B's code  
-        # self.catalog_api = CatalogAPI()        # Member B's code
+        # Initialize API services (Member B's code)
+        self.weather_service = WeatherService()
+        self.product_service = ProductService()
+        
+        # Initialize AI agent (Member A's code)
+        self.ai_agent = TravelShoppingAgent()
+        
         self.request_count = 0
+        logger.info("ChatbotOrchestrator initialized with AI agent and API services")
         
     def process_query(self, user_query: str) -> dict:
         """
@@ -47,7 +55,7 @@ class ChatbotOrchestrator:
         
         try:
             # Step 1: Parse intent using AI agent (Member A's code)
-            logger.info(f"[{request_id}] Step 1: Parsing intent with AI agent...")
+            logger.info(f"[{request_id}] Step 1: Parsing intent...")
             intent_data = self._parse_intent(user_query)
             
             # Step 2: Fetch contextual data (Member B's APIs)
@@ -72,113 +80,118 @@ class ChatbotOrchestrator:
     
     def _parse_intent(self, query: str) -> dict:
         """Parse user intent using AI agent (Member A's implementation)"""
-        # TODO: Replace with Member A's actual AI agent call
-        # return self.ai_agent.parse_intent(query)
-        
-        # Mock implementation for testing
-        return {
-            "destination": "Turkey",
-            "dates": "October 2024",
-            "category": "clothing",
-            "intent": "travel_packing",
-            "parsed_successfully": True
-        }
+        return self.ai_agent.parse_intent(query)
     
     def _fetch_context(self, intent_data: dict) -> dict:
-        """Fetch weather and cultural context (Member B's implementation)"""
+        """Fetch weather and cultural context using real APIs and AI"""
         context = {}
+        destination = intent_data.get("destination")
+        dates = intent_data.get("dates")
+        cultural_event = intent_data.get("cultural_event")
         
-        if intent_data.get("destination"):
-            # TODO: Replace with Member B's actual API calls
-            # context["weather"] = self.weather_api.get_forecast(
-            #     destination=intent_data["destination"],
-            #     dates=intent_data.get("dates")
-            # )
-            # context["cultural"] = self.ai_agent.get_cultural_context(
-            #     destination=intent_data["destination"],
-            #     dates=intent_data.get("dates")
-            # )
-            
-            # Mock implementation
-            context = {
-                "weather": {
-                    "temperature": "18-22°C",
-                    "conditions": "mild, occasional rain",
-                    "recommendation": "light layers recommended"
-                },
-                "cultural": {
-                    "events": ["Republic Day celebrations"],
-                    "norms": "Conservative dress in religious sites",
-                    "season": "Autumn tourist season"
+        if destination and destination != "unspecified":
+            # Get real weather data using Member B's weather service
+            weather_data = self.weather_service.get_weather_forecast(destination)
+            if weather_data:
+                context["weather"] = {
+                    "city": weather_data["city"],
+                    "country": weather_data["country"], 
+                    "summary": self.weather_service.get_weather_summary(destination),
+                    "details": weather_data["forecasts"][0] if weather_data["forecasts"] else None,
+                    "full_forecast": weather_data["forecasts"][:3]  # 3-day forecast
                 }
-            }
+            
+            # Get AI-powered cultural context using Member A's agent
+            cultural_context = self.ai_agent.get_cultural_context(
+                destination, dates, cultural_event
+            )
+            context["cultural"] = cultural_context
+            
+            # Get festival recommendations if relevant
+            if dates:
+                festivals = self.ai_agent.cultural_manager.get_festival_recommendations(
+                    destination, dates
+                )
+                context["relevant_festivals"] = festivals
         
         return context
     
     def _get_products(self, intent_data: dict, context_data: dict) -> list:
-        """Fetch relevant products from catalog (Member B's implementation)"""
-        # TODO: Replace with Member B's actual catalog API call
-        # return self.catalog_api.search_products(
-        #     category=intent_data.get("category"),
-        #     filters=self._build_filters(intent_data, context_data)
-        # )
-        
-        # Mock implementation
-        return [
-            {
-                "id": "SKU342",
-                "name": "Light Bomber Jacket",
-                "price": 49.99,
-                "currency": "USD",
-                "description": "Perfect for mild autumn weather",
-                "image_url": "/static/images/jacket.jpg",
-                "category": "outerwear"
-            },
-            {
-                "id": "SKU156", 
-                "name": "Waterproof Travel Umbrella",
-                "price": 24.99,
-                "currency": "USD",
-                "description": "Compact umbrella for rainy days",
-                "image_url": "/static/images/umbrella.jpg",
-                "category": "accessories"
-            }
-        ]
+        """Fetch relevant products from catalog using Member B's service with AI filtering"""
+        try:
+            # Get products based on category
+            category = intent_data.get("category", "clothing")
+            all_products = self.product_service.get_products(category=category)
+            
+            # Apply AI-powered cultural filtering using Member A's agent
+            destination = intent_data.get("destination")
+            if destination and destination != "unspecified":
+                cultural_context = context_data.get("cultural", {})
+                culturally_filtered = self.ai_agent.cultural_manager.filter_product_recommendations(
+                    all_products, destination, cultural_context
+                )
+            else:
+                culturally_filtered = all_products
+            
+            # Filter products based on weather if available
+            weather_data = context_data.get("weather", {}).get("details")
+            if weather_data:
+                # Create weather data structure for filtering
+                weather_for_filtering = {
+                    "forecasts": [weather_data]
+                }
+                weather_filtered = self.product_service.filter_products_by_weather(
+                    culturally_filtered, weather_for_filtering
+                )
+            else:
+                weather_filtered = culturally_filtered
+            
+            # Format products for response
+            formatted_products = []
+            for product in weather_filtered[:4]:  # Limit to 4 products
+                formatted_product = {
+                    "id": product.get("id", "N/A"),
+                    "name": product.get("name", "Product"),
+                    "price": self.product_service.format_price(product.get("price_usd", {})),
+                    "currency": "USD",
+                    "description": product.get("description", "No description available"),
+                    "image_url": product.get("picture", "/static/images/default.jpg"),
+                    "categories": product.get("categories", []),
+                    "cultural_score": product.get("cultural_score", 0.5)
+                }
+                formatted_products.append(formatted_product)
+            
+            return formatted_products
+            
+        except Exception as e:
+            logger.error(f"Error fetching products: {e}")
+            # Return mock products as fallback
+            return [
+                {
+                    "id": "MOCK001",
+                    "name": "Travel Essentials Kit",
+                    "price": "$29.99",
+                    "currency": "USD",
+                    "description": "Perfect for your travel needs",
+                    "image_url": "/static/images/travel-kit.jpg",
+                    "categories": ["travel"],
+                    "cultural_score": 0.8
+                }
+            ]
     
     def _generate_response(self, original_query: str, intent_data: dict, 
                           context_data: dict, products: list) -> dict:
-        """Generate final narrative response (Member A's implementation)"""
-        # TODO: Replace with Member A's actual AI generation
-        # return self.ai_agent.generate_response(
-        #     query=original_query,
-        #     intent=intent_data,
-        #     context=context_data, 
-        #     products=products
-        # )
-        
-        # Mock implementation
-        explanation = f"""Based on your trip to {intent_data.get('destination', 'your destination')} in {intent_data.get('dates', 'the specified time')}, I recommend these items considering the {context_data.get('weather', {}).get('conditions', 'weather conditions')}. The cultural context suggests {context_data.get('cultural', {}).get('norms', 'being mindful of local customs')}."""
-        
-        return {
-            "message": "Here are my personalized travel recommendations for you!",
-            "explanation": explanation,
-            "products": products,
-            "context": {
-                "weather": context_data.get("weather"),
-                "cultural": context_data.get("cultural")
-            },
-            "metadata": {
-                "query_processed_at": datetime.now().isoformat(),
-                "intent": intent_data
-            }
-        }
+        """Generate final narrative response using AI agent"""
+        return self.ai_agent.generate_response(
+            original_query, intent_data, context_data, products
+        )
     
     def _create_error_response(self, error_message: str) -> dict:
         """Create standardized error response"""
         return {
             "error": True,
-            "message": "I apologize, but I'm having trouble processing your request right now.",
-            "error_detail": error_message,
+            "message": "I apologize, but I'm having trouble processing your request right now. Please try again.",
+            "error_detail": error_message if app.debug else "Internal error occurred",
             "timestamp": datetime.now().isoformat()
         }
 
@@ -187,25 +200,35 @@ orchestrator = ChatbotOrchestrator()
 
 @app.route('/')
 def home():
-    """Serve basic info about the service"""
-    return jsonify({
-        "service": "Travel & Culture-Aware Shopping Chatbot",
-        "version": "1.0.0",
-        "endpoints": {
-            "/chat": "POST - Main chat endpoint",
-            "/health": "GET - Health check",
-            "/docs": "GET - API documentation"
-        },
-        "status": "running"
-    })
+    """Serve the main frontend"""
+    try:
+        return send_from_directory('static', 'index.html')
+    except:
+        # Fallback if static folder doesn't exist
+        return jsonify({
+            "service": "Travel & Culture-Aware Shopping Chatbot",
+            "version": "1.0.0",
+            "status": "Backend running - Frontend not found in /static/",
+            "endpoints": {
+                "/chat": "POST - Main chat endpoint",
+                "/health": "GET - Health check",
+                "/docs": "GET - API documentation",
+                "/test/weather/<city>": "GET - Test weather API",
+                "/test/products": "GET - Test products API"
+            }
+        })
 
 @app.route('/health')
 def health_check():
-    """Health check endpoint for GKE"""
+    """Health check endpoint for monitoring"""
     return jsonify({
         "status": "healthy",
         "timestamp": datetime.now().isoformat(),
-        "requests_processed": orchestrator.request_count
+        "requests_processed": orchestrator.request_count,
+        "services": {
+            "weather": "available" if orchestrator.weather_service.api_key else "no_api_key",
+            "products": "available"
+        }
     })
 
 @app.route('/chat', methods=['POST'])
@@ -243,69 +266,45 @@ def chat():
             "timestamp": datetime.now().isoformat()
         }), 500
 
-@app.route('/docs')
-def docs():
-    """API documentation endpoint"""
-    docs_html = """
-    <!DOCTYPE html>
-    <html>
-    <head>
-        <title>Travel Chatbot API Documentation</title>
-        <style>
-            body { font-family: Arial, sans-serif; margin: 40px; line-height: 1.6; }
-            .endpoint { background: #f5f5f5; padding: 20px; margin: 20px 0; border-radius: 8px; }
-            .method { background: #4CAF50; color: white; padding: 4px 8px; border-radius: 4px; }
-            pre { background: #333; color: #fff; padding: 15px; border-radius: 4px; overflow-x: auto; }
-        </style>
-    </head>
-    <body>
-        <h1>Travel & Culture-Aware Shopping Chatbot API</h1>
-        
-        <div class="endpoint">
-            <h2><span class="method">POST</span> /chat</h2>
-            <p>Main endpoint for processing user travel shopping queries.</p>
-            
-            <h3>Request Body:</h3>
-            <pre>{
-  "query": "I'm visiting Turkey in October, what should I pack?"
-}</pre>
-            
-            <h3>Response:</h3>
-            <pre>{
-  "message": "Here are my personalized travel recommendations for you!",
-  "explanation": "Based on your trip to Turkey in October...",
-  "products": [
-    {
-      "id": "SKU342",
-      "name": "Light Bomber Jacket", 
-      "price": 49.99,
-      "currency": "USD",
-      "description": "Perfect for mild autumn weather"
-    }
-  ],
-  "context": {
-    "weather": {...},
-    "cultural": {...}
-  }
-}</pre>
-        </div>
-        
-        <div class="endpoint">
-            <h2><span class="method">GET</span> /health</h2>
-            <p>Health check endpoint for monitoring service status.</p>
-        </div>
-        
-        <h2>Example Queries:</h2>
-        <ul>
-            <li>"I'm visiting Turkey in October, what should I pack?"</li>
-            <li>"Show me trending gifts for Eid in Dubai"</li>
-            <li>"What clothes should I bring to Japan in winter?"</li>
-            <li>"Cultural gifts for Diwali celebration in India"</li>
-        </ul>
-    </body>
-    </html>
-    """
-    return render_template_string(docs_html)
+# Test endpoints for debugging
+@app.route('/test/weather/<city>')
+def test_weather(city):
+    """Test endpoint for weather API"""
+    try:
+        weather_data = orchestrator.weather_service.get_weather_forecast(city)
+        return jsonify({
+            "city": city,
+            "weather_data": weather_data,
+            "summary": orchestrator.weather_service.get_weather_summary(city)
+        }), 200
+    except Exception as e:
+        logger.error(f"Weather test error: {e}")
+        return jsonify({'error': str(e)}), 500
+
+@app.route('/test/products')
+def test_products():
+    """Test endpoint for product catalog API"""
+    try:
+        category = request.args.get('category')
+        products = orchestrator.product_service.get_products(category=category)
+        formatted = []
+        for p in products[:5]:  # Show first 5
+            formatted.append({
+                "id": p.get("id"),
+                "name": p.get("name"),
+                "price": orchestrator.product_service.format_price(p.get("price_usd", {})),
+                "categories": p.get("categories", [])
+            })
+        return jsonify({
+            'products': formatted, 
+            'total_count': len(products),
+            'category_filter': category
+        }), 200
+    except Exception as e:
+        logger.error(f"Products test error: {e}")
+        return jsonify({'error': str(e)}), 500
+
+
 
 if __name__ == '__main__':
     # Configuration
