@@ -9,6 +9,7 @@ import logging
 from typing import Dict, List, Optional, Any
 from datetime import datetime, timedelta
 import os
+from dotenv import load_dotenv
 import re
 
 try:
@@ -28,18 +29,45 @@ class TravelShoppingAgent:
     """
     
     def __init__(self, project_id: str = None, location: str = "us-central1"):
+        load_dotenv()
         self.logger = logging.getLogger(__name__)
         
-        # Initialize Vertex AI if available
         self.project_id = project_id or os.getenv('GOOGLE_CLOUD_PROJECT')
         self.location = location
         
         if VERTEX_AI_AVAILABLE and self.project_id:
             try:
+                credentials_path = os.getenv('GOOGLE_APPLICATION_CREDENTIALS')
+                if credentials_path and os.path.exists(credentials_path):
+                    os.environ['GOOGLE_APPLICATION_CREDENTIALS'] = credentials_path
+                
                 vertexai.init(project=self.project_id, location=self.location)
-                self.model = GenerativeModel("gemini-1.5-flash")
-                self.ai_available = True
-                self.logger.info(f"Vertex AI initialized for project: {self.project_id}")
+                
+                # Try different model names
+                model_names = [
+                    "gemini-1.5-flash-001",
+                    "gemini-1.5-flash-002", 
+                    "gemini-pro",
+                    "gemini-1.0-pro-001"
+                ]
+                
+                self.model = None
+                for model_name in model_names:
+                    try:
+                        self.model = GenerativeModel(model_name)
+                        self.logger.info(f"Successfully initialized model: {model_name}")
+                        break
+                    except Exception as e:
+                        self.logger.warning(f"Failed to load {model_name}: {e}")
+                        continue
+                
+                if self.model:
+                    self.ai_available = True
+                    self.logger.info(f"Vertex AI initialized for project: {self.project_id}")
+                else:
+                    self.ai_available = False
+                    self.logger.error("No compatible Gemini model found")
+                    
             except Exception as e:
                 self.logger.error(f"Failed to initialize Vertex AI: {e}")
                 self.ai_available = False
@@ -47,9 +75,7 @@ class TravelShoppingAgent:
             self.ai_available = False
             self.logger.warning("Using mock AI - Vertex AI not configured")
         
-        # Initialize cultural data manager
         self.cultural_manager = CulturalDataManager()
-        
         self.logger.info(f"TravelShoppingAgent initialized (AI: {self.ai_available})")
     
     def parse_intent(self, query: str) -> Dict[str, Any]:

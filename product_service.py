@@ -1,61 +1,76 @@
 # product_service.py
 import requests
+import grpc
 from typing import List, Dict, Optional
 import json
 import logging
 
 class ProductService:
-    def __init__(self, catalog_service_url: str = None):
-        self.catalog_service_url = catalog_service_url or "http://productcatalogservice:3550"
-        self.logger = logging.getLogger(__name__)
+    def __init__(self, catalog_service_url: str, use_grpc: bool = False):
+        self.catalog_service_url = catalog_service_url
+        self.use_grpc = use_grpc
         
     def get_products(self, category: str = None, search_query: str = None) -> List[Dict]:
         """
-        Fetch products from Online Boutique catalog or mock data
+        Fetch products from Online Boutique catalog
         """
         try:
-            # Try to fetch from actual catalog service first
-            return self._get_products_rest(category, search_query)
+            if self.use_grpc:
+                return self._get_products_grpc(category, search_query)
+            else:
+                return self._get_products_rest(category, search_query)
+                
         except Exception as e:
-            self.logger.warning(f"Product catalog service unavailable: {e}")
+            logging.error(f"Product catalog error: {e}")
             return self._get_mock_products(category)
     
     def _get_products_rest(self, category: str = None, search_query: str = None) -> List[Dict]:
-        """REST API approach for Online Boutique"""
+        """REST API approach"""
         try:
             url = f"{self.catalog_service_url}/products"
-            self.logger.info(f"Fetching products from: {url}")
             
-            response = requests.get(url, timeout=5)
+            response = requests.get(url, timeout=10)
             response.raise_for_status()
             
             products = response.json()
             
             # Filter by category if specified
-            if category and isinstance(products, list):
-                category_lower = category.lower()
-                products = [p for p in products 
-                           if any(category_lower in cat.lower() 
-                                 for cat in p.get('categories', []))]
+            if category:
+                products = [p for p in products if category.lower() in p.get('categories', []).lower()]
             
             # Filter by search query if specified
-            if search_query and isinstance(products, list):
+            if search_query:
                 search_lower = search_query.lower()
                 products = [p for p in products 
                           if search_lower in p.get('name', '').lower() 
                           or search_lower in p.get('description', '').lower()]
             
-            self.logger.info(f"Retrieved {len(products)} products from catalog")
             return products
             
         except Exception as e:
-            self.logger.error(f"REST API error: {e}")
+            logging.error(f"REST API error: {e}")
+            raise
+    
+    def _get_products_grpc(self, category: str = None, search_query: str = None) -> List[Dict]:
+        """gRPC approach (if needed)"""
+        # Implementation for gRPC calls to productcatalogservice
+        # This would require the proto files from Online Boutique
+        try:
+            # Example gRPC implementation
+            channel = grpc.insecure_channel(self.catalog_service_url)
+            # stub = ProductCatalogServiceStub(channel)
+            # response = stub.ListProducts(ListProductsRequest())
+            # return [self._proto_to_dict(product) for product in response.products]
+            
+            # For now, fallback to REST
+            return self._get_products_rest(category, search_query)
+            
+        except Exception as e:
+            logging.error(f"gRPC error: {e}")
             raise
     
     def _get_mock_products(self, category: str = None) -> List[Dict]:
-        """Fallback mock products that mimic Online Boutique structure"""
-        self.logger.info("Using mock product data")
-        
+        """Fallback mock products"""
         mock_products = [
             {
                 'id': 'OLJCESPC7Z',
@@ -74,69 +89,17 @@ class ProductService:
                 'categories': ['clothing']
             },
             {
-                'id': '2ZYFJ3GM2N',
-                'name': 'Watch',
-                'description': 'This gold-tone stainless steel watch will work with most of your outfits.',
-                'picture': '/static/img/products/watch.jpg',
-                'price_usd': {'currency_code': 'USD', 'units': 109, 'nanos': 990000000},
-                'categories': ['accessories']
-            },
-            {
-                'id': '0PUK6V6EV0',
-                'name': 'Vintage Typewriter',
-                'description': 'This typewriter looks good in your living room or study.',
-                'picture': '/static/img/products/typewriter.jpg',
-                'price_usd': {'currency_code': 'USD', 'units': 67, 'nanos': 990000000},
-                'categories': ['vintage']
-            },
-            {
                 'id': '1YMWWN1N4O',
                 'name': 'Home & Garden Bamboo Cutting Board',
                 'description': 'Beautiful, functional, and durable, this bamboo cutting board makes a great gift.',
                 'picture': '/static/img/products/bamboo-cutting-board.jpg',
                 'price_usd': {'currency_code': 'USD', 'units': 27, 'nanos': 990000000},
-                'categories': ['kitchen', 'home']
-            },
-            {
-                'id': 'L9ECAV7KIM',
-                'name': 'Loafers',
-                'description': 'A neat addition to your summer wardrobe.',
-                'picture': '/static/img/products/loafers.jpg',
-                'price_usd': {'currency_code': 'USD', 'units': 89, 'nanos': 990000000},
-                'categories': ['footwear']
-            },
-            {
-                'id': 'LS4PSXUNUM',
-                'name': 'Salt & Pepper Shakers',
-                'description': 'Add some flavor to your kitchen.',
-                'picture': '/static/img/products/salt-and-pepper-shakers.jpg',
-                'price_usd': {'currency_code': 'USD', 'units': 18, 'nanos': 490000000},
-                'categories': ['kitchen']
-            },
-            {
-                'id': '9SIQT8TOJO',
-                'name': 'City Bike',
-                'description': 'This single gear bike probably cannot climb mountains or win a race, but it can get you across the city.',
-                'picture': '/static/img/products/city-bike.jpg',
-                'price_usd': {'currency_code': 'USD', 'units': 789, 'nanos': 500000000},
-                'categories': ['cycling']
-            },
-            {
-                'id': '6E92ZMYYFZ',
-                'name': 'Air Plant',
-                'description': 'This air plant will give your home a modern and artistic edge.',
-                'picture': '/static/img/products/air-plant.jpg',
-                'price_usd': {'currency_code': 'USD', 'units': 12, 'nanos': 300000000},
-                'categories': ['plant']
+                'categories': ['home']
             }
         ]
         
         if category:
-            category_lower = category.lower()
-            filtered = [p for p in mock_products 
-                       if any(category_lower in cat.lower() for cat in p['categories'])]
-            if filtered:
-                return filtered
+            mock_products = [p for p in mock_products if category.lower() in p['categories']]
             
         return mock_products
 
@@ -156,29 +119,17 @@ class ProductService:
             
             # Temperature-based filtering
             if avg_temp < 10:  # Cold weather
-                if any(word in name_lower for word in ['jacket', 'coat', 'sweater', 'hoodie', 'warm', 'watch']):
+                if any(word in name_lower for word in ['jacket', 'coat', 'sweater', 'hoodie', 'warm']):
                     filtered_products.append(product)
             elif avg_temp > 25:  # Hot weather
-                if any(word in name_lower for word in ['tank', 'shorts', 't-shirt', 'sunglasses', 'hat', 'loafers']):
+                if any(word in name_lower for word in ['tank', 'shorts', 't-shirt', 'sunglasses', 'hat']):
                     filtered_products.append(product)
             else:  # Mild weather
-                if any(word in name_lower for word in ['watch', 'loafers', 'sunglasses']) or 'accessories' in categories:
-                    filtered_products.append(product)
+                filtered_products.append(product)
             
             # Weather condition-based filtering
             if 'rain' in weather_main and any(word in name_lower for word in ['umbrella', 'jacket', 'waterproof']):
                 if product not in filtered_products:
                     filtered_products.append(product)
         
-        return filtered_products if filtered_products else products[:3]  # Fallback to first 3 products
-    
-    def format_price(self, price_usd: Dict) -> str:
-        """Format price from Online Boutique format to display string"""
-        if not price_usd:
-            return "Price unavailable"
-        
-        units = price_usd.get('units', 0)
-        nanos = price_usd.get('nanos', 0)
-        total_price = units + (nanos / 1000000000)
-        
-        return f"${total_price:.2f}"
+        return filtered_products if filtered_products else products[:5]  # Fallback to first 5 products

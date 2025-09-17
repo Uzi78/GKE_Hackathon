@@ -32,7 +32,10 @@ class ChatbotOrchestrator:
     def __init__(self):
         # Initialize API services (Member B's code)
         self.weather_service = WeatherService()
-        self.product_service = ProductService()
+        # Initialize ProductService with required catalog endpoint
+        catalog_url = os.getenv('PRODUCT_CATALOG_URL', 'http://localhost:8080')
+        use_grpc = os.getenv('PRODUCT_CATALOG_USE_GRPC', 'false').lower() == 'true'
+        self.product_service = ProductService(catalog_service_url=catalog_url, use_grpc=use_grpc)
         
         # Initialize AI agent (Member A's code)
         self.ai_agent = TravelShoppingAgent()
