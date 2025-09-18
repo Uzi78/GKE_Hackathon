@@ -37,8 +37,14 @@ class ChatbotOrchestrator:
         use_grpc = os.getenv('PRODUCT_CATALOG_USE_GRPC', 'false').lower() == 'true'
         self.product_service = ProductService(catalog_service_url=catalog_url, use_grpc=use_grpc)
         
-        # Initialize AI agent (Member A's code)
-        self.ai_agent = TravelShoppingAgent()
+        # Initialize AI agent (Member A's code) with error handling
+        try:
+            self.ai_agent = TravelShoppingAgent()
+            self.ai_available = True
+        except Exception as e:
+            logger.error(f"Failed to initialize AI agent: {e}")
+            self.ai_agent = None
+            self.ai_available = False
         
         self.request_count = 0
         logger.info("ChatbotOrchestrator initialized with AI agent and API services")
@@ -57,19 +63,19 @@ class ChatbotOrchestrator:
         logger.info(f"[{request_id}] Processing query: {user_query}")
         
         try:
-            # Step 1: Parse intent using AI agent (Member A's code)
+            # Step 1: Parse intent using AI agent or fallback
             logger.info(f"[{request_id}] Step 1: Parsing intent...")
             intent_data = self._parse_intent(user_query)
             
-            # Step 2: Fetch contextual data (Member B's APIs)
+            # Step 2: Fetch contextual data
             logger.info(f"[{request_id}] Step 2: Fetching contextual data...")
             context_data = self._fetch_context(intent_data)
             
-            # Step 3: Get product recommendations (Member B's catalog API)
+            # Step 3: Get product recommendations
             logger.info(f"[{request_id}] Step 3: Fetching product recommendations...")
             products = self._get_products(intent_data, context_data)
             
-            # Step 4: Generate final response (Member A's AI agent)
+            # Step 4: Generate final response
             logger.info(f"[{request_id}] Step 4: Generating final response...")
             response = self._generate_response(user_query, intent_data, context_data, products)
             
@@ -82,112 +88,304 @@ class ChatbotOrchestrator:
             return self._create_error_response(str(e))
     
     def _parse_intent(self, query: str) -> dict:
-        """Parse user intent using AI agent (Member A's implementation)"""
-        return self.ai_agent.parse_intent(query)
+        """Parse user intent using AI agent with fallback"""
+        if self.ai_available and self.ai_agent:
+            try:
+                return self.ai_agent.parse_intent(query)
+            except Exception as e:
+                logger.error(f"AI intent parsing failed: {e}")
+        
+        # Fallback intent parsing using simple keyword detection
+        return self._fallback_intent_parsing(query)
+    
+    def _fallback_intent_parsing(self, query: str) -> dict:
+        """Simple keyword-based intent parsing fallback"""
+        query_lower = query.lower()
+        
+        # Extract destination
+        destinations = ['japan', 'tokyo', 'dubai', 'turkey', 'istanbul', 'paris', 'london', 'new york']
+        destination = "unspecified"
+        for dest in destinations:
+            if dest in query_lower:
+                destination = dest.title()
+                break
+        
+        # Extract season/weather context
+        seasons = {
+            'winter': ['winter', 'cold', 'snow', 'december', 'january', 'february'],
+            'summer': ['summer', 'hot', 'warm', 'june', 'july', 'august'],
+            'spring': ['spring', 'march', 'april', 'may'],
+            'fall': ['fall', 'autumn', 'september', 'october', 'november']
+        }
+        
+        season = None
+        for season_name, keywords in seasons.items():
+            if any(keyword in query_lower for keyword in keywords):
+                season = season_name
+                break
+        
+        # Extract category
+        category = "clothing"  # default
+        if any(word in query_lower for word in ['gift', 'present', 'eid']):
+            category = "gifts"
+        elif any(word in query_lower for word in ['clothes', 'clothing', 'wear', 'pack']):
+            category = "clothing"
+        
+        return {
+            "destination": destination,
+            "category": category,
+            "season": season,
+            "dates": None,
+            "cultural_event": "eid" if "eid" in query_lower else None,
+            "intent_confidence": 0.7
+        }
     
     def _fetch_context(self, intent_data: dict) -> dict:
-        """Fetch weather and cultural context using real APIs and AI"""
+        """Fetch weather and cultural context with better error handling"""
         context = {}
         destination = intent_data.get("destination")
         dates = intent_data.get("dates")
         cultural_event = intent_data.get("cultural_event")
         
         if destination and destination != "unspecified":
-            # Get real weather data using Member B's weather service
-            weather_data = self.weather_service.get_weather_forecast(destination)
-            if weather_data:
-                context["weather"] = {
-                    "city": weather_data["city"],
-                    "country": weather_data["country"], 
-                    "summary": self.weather_service.get_weather_summary(destination),
-                    "details": weather_data["forecasts"][0] if weather_data["forecasts"] else None,
-                    "full_forecast": weather_data["forecasts"][:3]  # 3-day forecast
+            try:
+                # Get real weather data
+                weather_data = self.weather_service.get_weather_forecast(destination)
+                if weather_data and weather_data.get('forecasts'):
+                    context["weather"] = {
+                        "city": weather_data.get("city", destination),
+                        "country": weather_data.get("country", "Unknown"), 
+                        "summary": self.weather_service.get_weather_summary(destination),
+                        "details": weather_data["forecasts"][0],
+                        "full_forecast": weather_data["forecasts"][:3],
+                        "raw_data": weather_data  # Include raw data for filtering
+                    }
+                    logger.info(f"Successfully retrieved weather for {destination}")
+                else:
+                    logger.warning(f"No weather data available for {destination}")
+            except Exception as e:
+                logger.error(f"Weather fetch failed for {destination}: {e}")
+            
+            # Get cultural context if AI is available
+            if self.ai_available and self.ai_agent:
+                try:
+                    cultural_context = self.ai_agent.get_cultural_context(
+                        destination, dates, cultural_event
+                    )
+                    context["cultural"] = cultural_context
+                    
+                    # Get festival recommendations if relevant
+                    if dates:
+                        festivals = self.ai_agent.cultural_manager.get_festival_recommendations(
+                            destination, dates
+                        )
+                        context["relevant_festivals"] = festivals
+                except Exception as e:
+                    logger.error(f"Cultural context fetch failed: {e}")
+            else:
+                # Fallback cultural context
+                context["cultural"] = {
+                    "destination": destination,
+                    "cultural_notes": f"Popular destination with rich cultural heritage",
+                    "local_customs": [],
+                    "shopping_recommendations": []
                 }
-            
-            # Get AI-powered cultural context using Member A's agent
-            cultural_context = self.ai_agent.get_cultural_context(
-                destination, dates, cultural_event
-            )
-            context["cultural"] = cultural_context
-            
-            # Get festival recommendations if relevant
-            if dates:
-                festivals = self.ai_agent.cultural_manager.get_festival_recommendations(
-                    destination, dates
-                )
-                context["relevant_festivals"] = festivals
         
         return context
     
     def _get_products(self, intent_data: dict, context_data: dict) -> list:
-        """Fetch relevant products from catalog using Member B's service with AI filtering"""
+        """Fetch relevant products with improved filtering and error handling"""
         try:
-            # Get products based on category
+            # Get base category
             category = intent_data.get("category", "clothing")
-            all_products = self.product_service.get_products(category=category)
             
-            # Apply AI-powered cultural filtering using Member A's agent
-            destination = intent_data.get("destination")
-            if destination and destination != "unspecified":
-                cultural_context = context_data.get("cultural", {})
-                culturally_filtered = self.ai_agent.cultural_manager.filter_product_recommendations(
-                    all_products, destination, cultural_context
-                )
-            else:
-                culturally_filtered = all_products
+            # Get all products from catalog with explicit error handling
+            logger.info(f"Fetching products for category: {category}")
+            try:
+                all_products = self.product_service.get_products(category=category)
+                logger.info(f"Retrieved {len(all_products)} total products")
+                
+                # Ensure we have products
+                if not all_products:
+                    logger.warning("No products returned, using direct mock data")
+                    all_products = self.product_service._get_mock_products(category=category)
+                    
+            except Exception as e:
+                logger.error(f"Product service failed: {e}")
+                # Direct fallback to mock products
+                all_products = self.product_service._get_mock_products(category=category)
+                logger.info(f"Using {len(all_products)} mock products as fallback")
             
-            # Filter products based on weather if available
-            weather_data = context_data.get("weather", {}).get("details")
+            # Apply weather-based filtering if weather data is available
+            weather_filtered = all_products
+            weather_data = context_data.get("weather", {}).get("raw_data")
             if weather_data:
-                # Create weather data structure for filtering
-                weather_for_filtering = {
-                    "forecasts": [weather_data]
-                }
+                logger.info("Applying weather-based filtering...")
                 weather_filtered = self.product_service.filter_products_by_weather(
-                    culturally_filtered, weather_for_filtering
+                    all_products, weather_data
                 )
-            else:
-                weather_filtered = culturally_filtered
+                logger.info(f"Weather filtering resulted in {len(weather_filtered)} products")
             
-            # Format products for response
+            # Apply cultural filtering if AI is available
+            culturally_filtered = weather_filtered
+            if self.ai_available and self.ai_agent:
+                try:
+                    destination = intent_data.get("destination")
+                    if destination and destination != "unspecified":
+                        cultural_context = context_data.get("cultural", {})
+                        culturally_filtered = self.ai_agent.cultural_manager.filter_product_recommendations(
+                            weather_filtered, destination, cultural_context
+                        )
+                        logger.info(f"Cultural filtering resulted in {len(culturally_filtered)} products")
+                except Exception as e:
+                    logger.error(f"Cultural filtering failed: {e}")
+            
+            # Format products for response - limit to 6 products
+            final_products = culturally_filtered[:6]
             formatted_products = []
-            for product in weather_filtered[:4]:  # Limit to 4 products
-                formatted_product = {
-                    "id": product.get("id", "N/A"),
-                    "name": product.get("name", "Product"),
-                    "price": self.product_service.format_price(product.get("price_usd", {})),
-                    "currency": "USD",
-                    "description": product.get("description", "No description available"),
-                    "image_url": product.get("picture", "/static/images/default.jpg"),
-                    "categories": product.get("categories", []),
-                    "cultural_score": product.get("cultural_score", 0.5)
-                }
-                formatted_products.append(formatted_product)
             
+            for i, product in enumerate(final_products):
+                try:
+                    formatted_product = {
+                        "id": product.get("id", f"PRODUCT_{i}"),
+                        "name": product.get("name", "Product"),
+                        "price": self._format_price(product.get("priceUsd", {})),
+                        "currency": "USD",
+                        "description": product.get("description", "No description available"),
+                        "image_url": product.get("picture", "/static/images/default.jpg"),
+                        "categories": product.get("categories", []),
+                        "cultural_score": product.get("cultural_score", 0.5)
+                    }
+                    formatted_products.append(formatted_product)
+                except Exception as e:
+                    logger.error(f"Error formatting product {i}: {e}")
+                    continue
+            
+            logger.info(f"Returning {len(formatted_products)} formatted products")
             return formatted_products
             
         except Exception as e:
             logger.error(f"Error fetching products: {e}")
-            # Return mock products as fallback
+            logger.error(traceback.format_exc())
+            # Return diverse mock products as fallback
+            return self._get_fallback_products(intent_data)
+    
+    def _format_price(self, price_usd: dict) -> str:
+        """Format price from the product catalog structure"""
+        try:
+            if not price_usd:
+                return "$0.00"
+            
+            units = price_usd.get("units", 0)
+            nanos = price_usd.get("nanos", 0)
+            
+            # Convert nanos to decimal (nanos is in billionths)
+            decimal_part = nanos / 1_000_000_000
+            total_price = units + decimal_part
+            
+            return f"${total_price:.2f}"
+        except Exception as e:
+            logger.error(f"Error formatting price {price_usd}: {e}")
+            return "$0.00"
+    
+    def _get_fallback_products(self, intent_data: dict) -> list:
+        """Generate diverse fallback products based on intent"""
+        category = intent_data.get("category", "clothing")
+        destination = intent_data.get("destination", "")
+        
+        if category == "gifts" or "gift" in intent_data.get("cultural_event", "").lower():
             return [
                 {
-                    "id": "MOCK001",
-                    "name": "Travel Essentials Kit",
-                    "price": "$29.99",
+                    "id": "GIFT001",
+                    "name": "Traditional Gift Set",
+                    "price": "$39.99",
                     "currency": "USD",
-                    "description": "Perfect for your travel needs",
-                    "image_url": "/static/images/travel-kit.jpg",
-                    "categories": ["travel"],
+                    "description": "Beautiful traditional gift perfect for cultural occasions",
+                    "image_url": "/static/images/gift-set.jpg",
+                    "categories": ["gifts", "traditional"],
+                    "cultural_score": 0.9
+                },
+                {
+                    "id": "GIFT002", 
+                    "name": "Luxury Scarf",
+                    "price": "$59.99",
+                    "currency": "USD",
+                    "description": "Elegant scarf suitable for any occasion",
+                    "image_url": "/static/images/scarf.jpg",
+                    "categories": ["accessories", "gifts"],
                     "cultural_score": 0.8
+                }
+            ]
+        else:
+            return [
+                {
+                    "id": "CLOTHING001",
+                    "name": "Versatile Jacket",
+                    "price": "$89.99",
+                    "currency": "USD", 
+                    "description": "Perfect for varying weather conditions",
+                    "image_url": "/static/images/jacket.jpg",
+                    "categories": ["clothing", "outerwear"],
+                    "cultural_score": 0.7
+                },
+                {
+                    "id": "CLOTHING002",
+                    "name": "Comfortable Walking Shoes",
+                    "price": "$79.99",
+                    "currency": "USD",
+                    "description": "Ideal for exploring new destinations",
+                    "image_url": "/static/images/shoes.jpg", 
+                    "categories": ["footwear", "travel"],
+                    "cultural_score": 0.6
                 }
             ]
     
     def _generate_response(self, original_query: str, intent_data: dict, 
                           context_data: dict, products: list) -> dict:
-        """Generate final narrative response using AI agent"""
-        return self.ai_agent.generate_response(
-            original_query, intent_data, context_data, products
-        )
+        """Generate final response with or without AI"""
+        if self.ai_available and self.ai_agent:
+            try:
+                return self.ai_agent.generate_response(
+                    original_query, intent_data, context_data, products
+                )
+            except Exception as e:
+                logger.error(f"AI response generation failed: {e}")
+        
+        # Fallback response generation
+        return self._generate_fallback_response(original_query, intent_data, context_data, products)
+    
+    def _generate_fallback_response(self, query: str, intent_data: dict, 
+                                  context_data: dict, products: list) -> dict:
+        """Generate a structured fallback response"""
+        destination = intent_data.get("destination", "your destination")
+        weather_info = context_data.get("weather", {})
+        
+        # Create narrative
+        narrative = f"Based on your query about {destination}, "
+        
+        if weather_info.get("summary"):
+            narrative += f"I see the weather is {weather_info['summary']}. "
+        
+        narrative += f"Here are {len(products)} recommended items that would be perfect for your trip:"
+        
+        # Add product descriptions
+        for i, product in enumerate(products[:3], 1):
+            narrative += f"\n{i}. {product['name']} - {product['description']}"
+        
+        return {
+            "narrative": narrative,
+            "products": products,
+            "context": {
+                "destination": destination,
+                "weather": weather_info.get("summary", "Weather data unavailable"),
+                "cultural_notes": context_data.get("cultural", {}).get("cultural_notes", "")
+            },
+            "metadata": {
+                "products_count": len(products),
+                "ai_powered": False,
+                "timestamp": datetime.now().isoformat()
+            }
+        }
     
     def _create_error_response(self, error_message: str) -> dict:
         """Create standardized error response"""

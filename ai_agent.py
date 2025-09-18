@@ -45,7 +45,6 @@ class TravelShoppingAgent:
                 
                 # Try different model names
                 model_names = [
-                    "gemini-1.5-flash-001",
                     "gemini-1.5-flash-002", 
                     "gemini-pro",
                     "gemini-1.0-pro-001"

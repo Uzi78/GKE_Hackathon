@@ -1,7 +1,7 @@
 # weather_service.py
 import requests
 import json
-from typing import Dict, Optional
+from typing import Dict, Optional, List
 import logging
 import os
 
@@ -78,6 +78,52 @@ class WeatherService:
             }],
             'mock': True
         }
+        
+    def filter_products_by_weather(self, products: List[Dict], weather_data: Dict) -> List[Dict]:
+        """Filter products based on simple weather heuristics.
+
+        Expects product items with optional 'categories'/'tags' fields.
+        Returns original list if weather data is missing.
+        """
+        try:
+            if not products:
+                return []
+            if not weather_data or not weather_data.get('forecasts'):
+                return products
+
+            forecast = weather_data['forecasts'][0]
+            main = str(forecast.get('main', '')).lower()
+            description = str(forecast.get('description', '')).lower()
+            temp = forecast.get('temperature')
+            weather_text = f"{main} {description}".strip()
+
+            def matches(product: Dict) -> bool:
+                categories = product.get('categories') or []
+                tags = product.get('tags') or []
+                text = " ".join([str(c).lower() for c in categories if isinstance(c, str)] +
+                                  [str(t).lower() for t in tags if isinstance(t, str)])
+
+                # Rainy conditions
+                if 'rain' in weather_text or 'drizzle' in weather_text:
+                    return any(k in text for k in ['rain', 'waterproof', 'umbrella', 'raincoat'])
+
+                # Cold
+                if isinstance(temp, (int, float)) and temp <= 10:
+                    return any(k in text for k in ['winter', 'cold', 'thermal', 'coat', 'jacket', 'sweater'])
+
+                # Hot
+                if isinstance(temp, (int, float)) and temp >= 25:
+                    return any(k in text for k in ['summer', 'hot', 'shorts', 't-shirt', 'sunscreen', 'sunglasses'])
+
+                # Mild/default allow
+                return True
+
+            filtered_products = [p for p in products if matches(p)]
+            self.logger.info(f"Weather filtering: {len(products)} -> {len(filtered_products)}")
+            return filtered_products or products
+        except Exception as e:
+            self.logger.error(f"filter_products_by_weather failed: {e}")
+            return products
     
     def get_weather_summary(self, city: str, country: str = None) -> str:
         """Get a text summary of weather conditions"""
