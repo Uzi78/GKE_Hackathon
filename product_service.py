@@ -276,6 +276,119 @@ class ProductService:
             
         self.logger.info(f"Weather filtering resulted in {len(filtered_products)} products")
         return filtered_products
+    
+    def filter_products_by_regional_climate(self, products: List[Dict], country: str, city: str = None, month: str = None) -> List[Dict]:
+        """Filter products based on regional climate data from cultural database"""
+        try:
+            from cultural_data import CulturalDataManager
+            cultural_manager = CulturalDataManager()
+            
+            # Get regional climate data
+            regional_data = cultural_manager.get_regional_climate_data(country, city, month)
+            
+            if regional_data and "current_month_weather" in regional_data:
+                month_weather = regional_data["current_month_weather"]
+                temp_range = month_weather.get("temp_range", "")
+                description = month_weather.get("description", "").lower()
+                clothing = month_weather.get("clothing", "").lower()
+                
+                # Extract average temperature from range (e.g., "15-25°C" -> 20°C)
+                avg_temp = self._extract_average_temp(temp_range)
+                
+                self.logger.info(f"Filtering by regional climate - {city}, {country} in {month}: {temp_range}, {description}")
+                
+                return self._filter_by_climate_conditions(products, avg_temp, description, clothing)
+            
+            # Fallback to general country filtering
+            elif regional_data:
+                self.logger.info(f"Using general regional data for {city}, {country}")
+                return self._filter_by_climate_conditions(products, 20, "moderate", "moderate layers")
+            
+            else:
+                self.logger.warning(f"No regional climate data found for {city}, {country}")
+                return products[:10]  # Return first 10 as fallback
+                
+        except Exception as e:
+            self.logger.error(f"Error filtering by regional climate: {e}")
+            return products[:10]
+    
+    def _extract_average_temp(self, temp_range: str) -> float:
+        """Extract average temperature from a range string like '15-25°C'"""
+        try:
+            # Remove °C and split by dash
+            temp_str = temp_range.replace("°C", "").strip()
+            if "-" in temp_str:
+                parts = temp_str.split("-")
+                min_temp = float(parts[0].strip())
+                max_temp = float(parts[1].strip())
+                return (min_temp + max_temp) / 2
+            else:
+                # Single temperature value
+                return float(temp_str)
+        except (ValueError, IndexError):
+            self.logger.warning(f"Could not parse temperature range: {temp_range}")
+            return 20.0  # Default moderate temperature
+    
+    def _filter_by_climate_conditions(self, products: List[Dict], avg_temp: float, description: str, clothing: str) -> List[Dict]:
+        """Filter products based on specific climate conditions"""
+        filtered_products = []
+        all_weather_products = []
+        
+        for product in products:
+            name_lower = product.get('name', '').lower()
+            description_lower = product.get('description', '').lower()
+            categories = [cat.lower() for cat in product.get('categories', [])]
+            
+            # Collect all-weather items as backup
+            if 'all-weather' in categories:
+                all_weather_products.append(product)
+            
+            # Temperature-based filtering
+            temp_match = False
+            if avg_temp < 10:  # Cold weather
+                cold_keywords = ['jacket', 'coat', 'sweater', 'hoodie', 'warm', 'winter', 'wool', 'thermal']
+                cold_categories = ['cold', 'winter', 'outerwear']
+                if (any(keyword in name_lower or keyword in description_lower for keyword in cold_keywords) or
+                    any(cat in categories for cat in cold_categories)):
+                    temp_match = True
+                    
+            elif avg_temp > 25:  # Hot weather  
+                hot_keywords = ['tank', 'shorts', 't-shirt', 'sunglasses', 'hat', 'summer', 'light', 'breathable']
+                hot_categories = ['hot', 'summer']
+                if (any(keyword in name_lower or keyword in description_lower for keyword in hot_keywords) or
+                    any(cat in categories for cat in hot_categories)):
+                    temp_match = True
+                    
+            else:  # Mild weather (10-25°C)
+                mild_keywords = ['jacket', 'layers', 'light', 'casual']
+                mild_categories = ['mild', 'all-weather', 'clothing']
+                if (any(keyword in name_lower or keyword in description_lower for keyword in mild_keywords) or
+                    any(cat in categories for cat in mild_categories)):
+                    temp_match = True
+            
+            # Climate description-based filtering
+            condition_match = False
+            if 'cold' in description or 'freezing' in description:
+                if any(keyword in clothing for keyword in ['heavy coat', 'thermal', 'warm layers']):
+                    condition_match = True
+            elif 'hot' in description or 'warm' in description:
+                if any(keyword in clothing for keyword in ['light cotton', 'breathable', 'sun protection']):
+                    condition_match = True
+            
+            # Add product if it matches temperature or climate conditions
+            if temp_match or condition_match:
+                filtered_products.append(product)
+        
+        # If no specific matches, include all-weather products
+        if not filtered_products:
+            filtered_products.extend(all_weather_products[:5])  # Limit to 5 all-weather items
+        
+        # Final fallback - return some products
+        if not filtered_products:
+            filtered_products = products[:8]
+            
+        self.logger.info(f"Regional climate filtering resulted in {len(filtered_products)} products")
+        return filtered_products
 
     def get_products_for_destination(self, destination: str, weather_data: Dict = None, category: str = None) -> List[Dict]:
         """Get products specifically filtered for a destination and weather"""
@@ -295,3 +408,123 @@ class ProductService:
         except Exception as e:
             self.logger.error(f"Error getting products for destination {destination}: {e}")
             return self._get_mock_products()[:5]
+    
+    def calculate_total_price(self, product_ids: List[str]) -> str:
+        """
+        Calculate the total price of a list of products by their IDs
+        """
+        try:
+            products = self.get_products()
+            total_price = sum(product.get('priceUsd', {}).get('units', 0) for product in products if product.get('id') in product_ids)
+            
+            return f"${total_price:.2f}"
+        except Exception as e:
+            self.logger.error(f"Error calculating total price: {e}")
+            return "$0.00"
+    
+    def get_culturally_relevant_products(self, category: str = None, cultural_context: Dict = None, 
+                                       destination: str = None, month: str = None) -> List[Dict]:
+        """
+        Get products that are culturally appropriate for the destination and time
+        """
+        products = self.get_products(category=category)
+        
+        if not cultural_context or not destination:
+            return products
+        
+        # Enhanced filtering based on cultural context
+        filtered_products = []
+        
+        for product in products:
+            product_name = product.get("name", "").lower()
+            product_description = product.get("description", "").lower()
+            categories = [cat.lower() for cat in product.get("categories", [])]
+            
+            # Cultural appropriateness score
+            score = self._calculate_cultural_relevance_score(product, cultural_context, destination, month)
+            
+            if score > 0.3:  # Only include products with decent cultural relevance
+                product_copy = product.copy()
+                product_copy["cultural_relevance"] = score
+                filtered_products.append(product_copy)
+        
+        # Sort by cultural relevance
+        filtered_products.sort(key=lambda x: x.get("cultural_relevance", 0), reverse=True)
+        
+        return filtered_products[:8]  # Return top 8 culturally relevant products
+    
+    def _calculate_cultural_relevance_score(self, product: Dict, cultural_context: Dict, 
+                                          destination: str, month: str = None) -> float:
+        """
+        Calculate how culturally relevant a product is for the given context
+        Uses seasonal information from Wikipedia instead of weather API
+        """
+        score = 0.5  # Base score
+        
+        product_name = product.get("name", "").lower()
+        categories = [cat.lower() for cat in product.get("categories", [])]
+        
+        # Check clothing norms
+        clothing_norms = cultural_context.get("clothing_norms", {})
+        
+        # Religious sites consideration
+        if clothing_norms.get("religious_sites"):
+            if any(word in product_name for word in ["modest", "long", "cover", "scarf"]):
+                score += 0.3
+        
+        # Business attire
+        if clothing_norms.get("business"):
+            if any(word in product_name for word in ["formal", "suit", "blazer", "dress"]):
+                score += 0.2
+        
+        # Casual wear
+        if clothing_norms.get("casual"):
+            if any(word in product_name for word in ["casual", "comfortable", "jeans", "t-shirt"]):
+                score += 0.1
+        
+        # Seasonal weather consideration (from Wikipedia)
+        seasonal_weather = cultural_context.get("seasonal_weather", {})
+        if month and seasonal_weather:
+            # Map month to season
+            month_lower = month.lower()
+            if month_lower in ['december', 'january', 'february']:
+                season = 'winter'
+            elif month_lower in ['march', 'april', 'may']:
+                season = 'spring'
+            elif month_lower in ['june', 'july', 'august']:
+                season = 'summer'
+            else:  # September, October, November
+                season = 'autumn'
+            
+            season_info = seasonal_weather.get(season, "").lower()
+            
+            # Adjust score based on seasonal recommendations
+            if season == 'winter' and any(word in season_info for word in ['cold', 'snow', 'freezing']):
+                if any(word in product_name for word in ['coat', 'jacket', 'warm', 'wool']):
+                    score += 0.4
+            elif season == 'summer' and any(word in season_info for word in ['hot', 'warm', 'tropical']):
+                if any(word in product_name for word in ['short', 'tank', 'light', 'cotton']):
+                    score += 0.4
+        
+        # Festival-specific relevance
+        festivals = cultural_context.get("festivals", [])
+        for festival in festivals:
+            festival_name = festival.get("name", "").lower()
+            shopping_relevance = festival.get("shopping_relevance", "").lower()
+            
+            # Check if product matches festival shopping suggestions
+            if any(keyword in shopping_relevance for keyword in ["clothing", "attire", "wear"]):
+                if "traditional" in shopping_relevance and "traditional" in product_name:
+                    score += 0.4
+                elif "festive" in shopping_relevance and any(word in product_name for word in ["colorful", "bright", "party"]):
+                    score += 0.3
+        
+        # Taboo checking (reduce score for inappropriate items)
+        taboos = cultural_context.get("taboos", [])
+        for taboo in taboos:
+            taboo_lower = taboo.lower()
+            if (taboo_lower in product_name or 
+                any(taboo_lower in cat for cat in categories)):
+                score -= 0.5
+        
+        return max(0.0, min(1.0, score))

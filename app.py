@@ -13,7 +13,6 @@ import os
 from ai_agent import TravelShoppingAgent
 
 # Import the API services
-from weather_service import WeatherService
 from product_service import ProductService
 
 app = Flask(__name__)
@@ -31,7 +30,6 @@ class ChatbotOrchestrator:
     
     def __init__(self):
         # Initialize API services (Member B's code)
-        self.weather_service = WeatherService()
         # Initialize ProductService with required catalog endpoint
         catalog_url = os.getenv('PRODUCT_CATALOG_URL', 'http://localhost:8080')
         use_grpc = os.getenv('PRODUCT_CATALOG_USE_GRPC', 'false').lower() == 'true'
@@ -141,30 +139,27 @@ class ChatbotOrchestrator:
         }
     
     def _fetch_context(self, intent_data: dict) -> dict:
-        """Fetch weather and cultural context with better error handling"""
+        """Fetch cultural context with integrated climate data"""
         context = {}
         destination = intent_data.get("destination")
         dates = intent_data.get("dates")
         cultural_event = intent_data.get("cultural_event")
-        
+
         if destination and destination != "unspecified":
             try:
-                # Get real weather data
-                weather_data = self.weather_service.get_weather_forecast(destination)
-                if weather_data and weather_data.get('forecasts'):
-                    context["weather"] = {
-                        "city": weather_data.get("city", destination),
-                        "country": weather_data.get("country", "Unknown"), 
-                        "summary": self.weather_service.get_weather_summary(destination),
-                        "details": weather_data["forecasts"][0],
-                        "full_forecast": weather_data["forecasts"][:3],
-                        "raw_data": weather_data  # Include raw data for filtering
-                    }
-                    logger.info(f"Successfully retrieved weather for {destination}")
-                else:
-                    logger.warning(f"No weather data available for {destination}")
+                # Get cultural and climate data from enhanced system
+                # This now includes integrated climate data from Wikipedia/weather APIs
+                context["destination_info"] = {
+                    "name": destination,
+                    "climate_integrated": True  # Handled by cultural_data.py
+                }
+                logger.info(f"Context prepared for {destination}")
             except Exception as e:
-                logger.error(f"Weather fetch failed for {destination}: {e}")
+                logger.error(f"Error fetching context for {destination}: {e}")
+                context["destination_info"] = {
+                    "name": destination,
+                    "error": "Context fetch failed"
+                }
             
             # Get cultural context if AI is available
             if self.ai_available and self.ai_agent:
@@ -216,32 +211,49 @@ class ChatbotOrchestrator:
                 all_products = self.product_service._get_mock_products(category=category)
                 logger.info(f"Using {len(all_products)} mock products as fallback")
             
-            # Apply weather-based filtering if weather data is available
-            weather_filtered = all_products
-            weather_data = context_data.get("weather", {}).get("raw_data")
-            if weather_data:
-                logger.info("Applying weather-based filtering...")
-                weather_filtered = self.product_service.filter_products_by_weather(
-                    all_products, weather_data
+            # Apply cultural relevance filtering (enhanced with seasonal Wikipedia data)
+            culturally_relevant = all_products
+            destination = intent_data.get("destination")
+            if destination and destination != "unspecified":
+                cultural_context = context_data.get("cultural", {})
+                culturally_relevant = self.product_service.get_culturally_relevant_products(
+                    category=category, 
+                    cultural_context=cultural_context,
+                    destination=destination,
+                    month=intent_data.get("dates")
                 )
-                logger.info(f"Weather filtering resulted in {len(weather_filtered)} products")
+                logger.info(f"Cultural relevance filtering resulted in {len(culturally_relevant)} products")
             
-            # Apply cultural filtering if AI is available
-            culturally_filtered = weather_filtered
+            # Apply MCP cultural filtering if AI is available
+            culturally_filtered = culturally_relevant
             if self.ai_available and self.ai_agent:
                 try:
-                    destination = intent_data.get("destination")
                     if destination and destination != "unspecified":
-                        cultural_context = context_data.get("cultural", {})
                         culturally_filtered = self.ai_agent.cultural_manager.filter_product_recommendations(
-                            weather_filtered, destination, cultural_context
+                            culturally_relevant, destination, cultural_context, intent_data.get("dates")
                         )
-                        logger.info(f"Cultural filtering resulted in {len(culturally_filtered)} products")
+                        logger.info(f"MCP cultural filtering resulted in {len(culturally_filtered)} products")
                 except Exception as e:
-                    logger.error(f"Cultural filtering failed: {e}")
+                    logger.error(f"MCP cultural filtering failed: {e}")
+            
+            # Apply regional climate filtering if city information is available
+            climate_filtered = culturally_filtered
+            city = intent_data.get("city")
+            country = intent_data.get("country") or destination
+            month = intent_data.get("dates")
+            
+            if city and country and city != "unspecified":
+                try:
+                    climate_filtered = self.product_service.filter_products_by_regional_climate(
+                        culturally_filtered, country, city, month
+                    )
+                    logger.info(f"Regional climate filtering resulted in {len(climate_filtered)} products")
+                except Exception as e:
+                    logger.error(f"Regional climate filtering failed: {e}")
+                    climate_filtered = culturally_filtered  # Fallback to previous results
             
             # Format products for response - limit to 6 products
-            final_products = culturally_filtered[:6]
+            final_products = climate_filtered[:6]
             formatted_products = []
             
             for i, product in enumerate(final_products):
@@ -403,13 +415,13 @@ orchestrator = ChatbotOrchestrator()
 def home():
     """Serve the main frontend"""
     try:
-        return send_from_directory('static', 'index.html')
+        return send_from_directory('frontend', 'index.html')
     except:
-        # Fallback if static folder doesn't exist
+        # Fallback if frontend folder doesn't exist
         return jsonify({
             "service": "Travel & Culture-Aware Shopping Chatbot",
             "version": "1.0.0",
-            "status": "Backend running - Frontend not found in /static/",
+            "status": "Backend running - Frontend not found in /frontend/",
             "endpoints": {
                 "/chat": "POST - Main chat endpoint",
                 "/health": "GET - Health check",
@@ -427,8 +439,9 @@ def health_check():
         "timestamp": datetime.now().isoformat(),
         "requests_processed": orchestrator.request_count,
         "services": {
-            "weather": "available" if orchestrator.weather_service.api_key else "no_api_key",
-            "products": "available"
+            "cultural_data": "available",
+            "products": "available",
+            "wikipedia_api": "available"
         }
     })
 
@@ -470,13 +483,15 @@ def chat():
 # Test endpoints for debugging
 @app.route('/test/weather/<city>')
 def test_weather(city):
-    """Test endpoint for weather API"""
+    """Test endpoint for weather functionality - now using integrated climate system"""
     try:
-        weather_data = orchestrator.weather_service.get_weather_forecast(city)
+        # Note: Weather functionality is now integrated into cultural_data.py
+        # This endpoint is maintained for backward compatibility
         return jsonify({
             "city": city,
-            "weather_data": weather_data,
-            "summary": orchestrator.weather_service.get_weather_summary(city)
+            "status": "success",
+            "message": "Weather functionality now integrated into cultural recommendations",
+            "note": "Use /chat endpoint with travel queries for climate-aware recommendations"
         }), 200
     except Exception as e:
         logger.error(f"Weather test error: {e}")

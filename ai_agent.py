@@ -92,7 +92,9 @@ class TravelShoppingAgent:
             
             Extract and return ONLY a JSON object with these exact fields:
             {{
-                "destination": "city or country name (normalize to standard names)",
+                "destination": "main destination mentioned (city or country)",
+                "city": "specific city mentioned or null if not specified",
+                "country": "country mentioned or inferred from city, or null",
                 "dates": "time period mentioned or 'unspecified'",
                 "category": "main product category (clothing/accessories/gifts/electronics/beauty/home)",
                 "travel_purpose": "vacation/business/visiting_family/cultural_event/other",
@@ -104,8 +106,9 @@ class TravelShoppingAgent:
             }}
             
             Examples:
-            - "What to pack for Turkey in October?" → {{"destination": "Turkey", "dates": "October", "category": "clothing", "travel_purpose": "vacation", "weather_concern": true}}
-            - "Eid gifts for Dubai trip" → {{"destination": "Dubai", "category": "gifts", "cultural_event": "Eid", "travel_purpose": "vacation"}}
+            - "What to pack for Karachi Pakistan in January?" → {{"destination": "Karachi Pakistan", "city": "Karachi", "country": "Pakistan", "dates": "January", "category": "clothing", "weather_concern": true}}
+            - "Eid gifts for Dubai trip" → {{"destination": "Dubai", "city": "Dubai", "country": "UAE", "category": "gifts", "cultural_event": "Eid"}}
+            - "Summer clothes for Turkey" → {{"destination": "Turkey", "city": null, "country": "Turkey", "dates": "summer", "category": "clothing"}}
             
             Return ONLY the JSON, no other text.
             """
@@ -132,19 +135,19 @@ class TravelShoppingAgent:
             self.logger.error(f"AI intent parsing failed: {e}")
             return self._mock_parse_intent(query)
     
-    def get_cultural_context(self, destination: str, dates: str = None, cultural_event: str = None) -> Dict[str, Any]:
+    def get_cultural_context(self, destination: str, dates: str = None, cultural_event: str = None, city: str = None) -> Dict[str, Any]:
         """
         Get AI-powered cultural context with MCP grounding
         """
         if not self.ai_available:
-            return self._mock_cultural_context(destination)
+            return self._mock_cultural_context(destination, city)
         
         try:
-            # Get grounding data from cultural manager
-            base_cultural_data = self.cultural_manager.get_cultural_data(destination)
+            # Get grounding data from cultural manager with city information
+            base_cultural_data = self.cultural_manager.get_cultural_data(destination, dates, city)
             
             prompt = f"""
-            Provide cultural context for travelers visiting {destination} in {dates or 'unspecified time'}.
+            Provide cultural context for travelers visiting {destination}{f' ({city})' if city else ''} in {dates or 'unspecified time'}.
             
             Base cultural data: {json.dumps(base_cultural_data, indent=2)}
             
@@ -287,6 +290,8 @@ class TravelShoppingAgent:
         # Set defaults for missing fields
         defaults = {
             "destination": "unspecified",
+            "city": None,
+            "country": None,
             "dates": "unspecified", 
             "category": "clothing",
             "travel_purpose": "vacation",
@@ -307,23 +312,61 @@ class TravelShoppingAgent:
     
     # Mock implementations for fallback
     def _mock_parse_intent(self, query: str) -> Dict:
-        """Enhanced mock implementation"""
+        """Enhanced mock implementation with generic destination support"""
         query_lower = query.lower()
         
-        # Destination detection
-        destinations = {
-            'turkey': 'Turkey', 'istanbul': 'Turkey', 'ankara': 'Turkey',
-            'dubai': 'Dubai', 'uae': 'Dubai', 
-            'japan': 'Japan', 'tokyo': 'Japan', 'kyoto': 'Japan',
-            'pakistan': 'Pakistan', 'karachi': 'Pakistan', 'lahore': 'Pakistan',
-            'india': 'India', 'mumbai': 'India', 'delhi': 'India'
+        # Enhanced destination detection with city/country separation
+        destination = "unspecified"
+        city = None
+        country = None
+        
+        # First check predefined destinations with city/country mapping
+        predefined_destinations = {
+            'karachi': {'city': 'Karachi', 'country': 'Pakistan'},
+            'lahore': {'city': 'Lahore', 'country': 'Pakistan'},
+            'islamabad': {'city': 'Islamabad', 'country': 'Pakistan'},
+            'skardu': {'city': 'Skardu', 'country': 'Pakistan'},
+            'istanbul': {'city': 'Istanbul', 'country': 'Turkey'},
+            'ankara': {'city': 'Ankara', 'country': 'Turkey'},
+            'tokyo': {'city': 'Tokyo', 'country': 'Japan'},
+            'kyoto': {'city': 'Kyoto', 'country': 'Japan'},
+            'amsterdam': {'city': 'Amsterdam', 'country': 'Netherlands'},
+            'rotterdam': {'city': 'Rotterdam', 'country': 'Netherlands'},
+            'dubai': {'city': 'Dubai', 'country': 'UAE'},
+            'mumbai': {'city': 'Mumbai', 'country': 'India'},
+            'delhi': {'city': 'Delhi', 'country': 'India'}
         }
         
-        destination = "unspecified"
-        for key, value in destinations.items():
+        for key, location_info in predefined_destinations.items():
             if key in query_lower:
-                destination = value
+                city = location_info['city']
+                country = location_info['country']
+                destination = f"{city}, {country}"
                 break
+        
+        # If not found in predefined, try to extract country and city separately
+        if not city and not country:
+            # Country detection
+            countries = ['pakistan', 'turkey', 'japan', 'netherlands', 'india', 'uae', 'china', 'korea']
+            for c in countries:
+                if c in query_lower:
+                    country = c.title()
+                    break
+            
+            # City detection - look for capitalized words that might be cities
+            words = query.split()
+            for word in words:
+                if word[0].isupper() and len(word) > 2 and word.lower() not in ['what', 'should', 'wear', 'going', 'traveling', 'trip', 'pack', 'buy']:
+                    if not city and word.lower() != country.lower():
+                        city = word
+                        break
+            
+            if country and city:
+                destination = f"{city}, {country}"
+            elif country:
+                destination = country
+            elif city:
+                destination = city
         
         # Category detection
         category = "clothing"  # default
@@ -345,6 +388,8 @@ class TravelShoppingAgent:
         
         return {
             "destination": destination,
+            "city": city,
+            "country": country,
             "dates": dates,
             "category": category,
             "travel_purpose": "vacation",
@@ -358,9 +403,9 @@ class TravelShoppingAgent:
             "mock_response": True
         }
     
-    def _mock_cultural_context(self, destination: str) -> Dict:
-        """Mock cultural context for fallback"""
-        return self.cultural_manager.get_cultural_data(destination)
+    def _mock_cultural_context(self, destination: str, city: str = None) -> Dict:
+        """Mock cultural context for fallback with regional support"""
+        return self.cultural_manager.get_cultural_data(destination, city=city)
     
     def _mock_generate_response(self, query: str, intent: Dict, context: Dict, products: List) -> Dict:
         """Mock response generation for fallback"""
