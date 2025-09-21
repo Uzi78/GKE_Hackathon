@@ -1,0 +1,1675 @@
+{
+  "london_uk": {
+    "timestamp": "2025-09-19T14:37:35.996632",
+    "data": {
+      "name": "London",
+      "region": "London, Uk",
+      "climate_type": "Unknown",
+      "seasonal_weather": {
+        "january": {
+          "temp_range": "0-10°C",
+          "description": "Cold winter",
+          "clothing": "Heavy coat, warm layers, warm hat"
+        },
+        "february": {
+          "temp_range": "0-10°C",
+          "description": "Cold winter",
+          "clothing": "Heavy coat, warm layers, warm hat"
+        },
+        "march": {
+          "temp_range": "5-15°C",
+          "description": "Cool weather",
+          "clothing": "Warm jacket, layers, long sleeves"
+        },
+        "april": {
+          "temp_range": "5-15°C",
+          "description": "Cool weather",
+          "clothing": "Warm jacket, layers, long sleeves"
+        },
+        "may": {
+          "temp_range": "5-15°C",
+          "description": "Cool weather",
+          "clothing": "Warm jacket, layers, long sleeves"
+        },
+        "june": {
+          "temp_range": "15-25°C",
+          "description": "Warm weather",
+          "clothing": "Light layers, cotton clothing"
+        },
+        "july": {
+          "temp_range": "15-25°C",
+          "description": "Warm weather",
+          "clothing": "Light layers, cotton clothing"
+        },
+        "august": {
+          "temp_range": "15-25°C",
+          "description": "Warm weather",
+          "clothing": "Light layers, cotton clothing"
+        },
+        "september": {
+          "temp_range": "10-20°C",
+          "description": "Mild weather",
+          "clothing": "Light jacket, long sleeves, layers"
+        },
+        "october": {
+          "temp_range": "10-20°C",
+          "description": "Mild weather",
+          "clothing": "Light jacket, long sleeves, layers"
+        },
+        "november": {
+          "temp_range": "10-20°C",
+          "description": "Mild weather",
+          "clothing": "Light jacket, long sleeves, layers"
+        },
+        "december": {
+          "temp_range": "0-10°C",
+          "description": "Cold winter",
+          "clothing": "Heavy coat, warm layers, warm hat"
+        }
+      },
+      "source": "WeatherAPI",
+      "current_month_weather": {
+        "temp_range": "0-10°C",
+        "description": "Cold winter",
+        "clothing": "Heavy coat, warm layers, warm hat"
+      }
+    }
+  },
+  "tokyo_japan": {
+    "timestamp": "2025-09-19T14:37:49.029111",
+    "data": {
+      "name": "Tokyo",
+      "region": "Tokyo, Japan",
+      "climate_type": "Unknown",
+      "seasonal_weather": {
+        "january": {
+          "temp_range": "6-16°C",
+          "description": "Cool weather",
+          "clothing": "Warm jacket, layers, long sleeves"
+        },
+        "february": {
+          "temp_range": "6-16°C",
+          "description": "Cool weather",
+          "clothing": "Warm jacket, layers, long sleeves"
+        },
+        "march": {
+          "temp_range": "11-21°C",
+          "description": "Mild weather",
+          "clothing": "Light jacket, long sleeves, layers"
+        },
+        "april": {
+          "temp_range": "11-21°C",
+          "description": "Mild weather",
+          "clothing": "Light jacket, long sleeves, layers"
+        },
+        "may": {
+          "temp_range": "11-21°C",
+          "description": "Mild weather",
+          "clothing": "Light jacket, long sleeves, layers"
+        },
+        "june": {
+          "temp_range": "21-31°C",
+          "description": "Hot weather",
+          "clothing": "Light cotton, breathable fabrics"
+        },
+        "july": {
+          "temp_range": "21-31°C",
+          "description": "Hot weather",
+          "clothing": "Light cotton, breathable fabrics"
+        },
+        "august": {
+          "temp_range": "21-31°C",
+          "description": "Hot weather",
+          "clothing": "Light cotton, breathable fabrics"
+        },
+        "september": {
+          "temp_range": "16-26°C",
+          "description": "Warm weather",
+          "clothing": "Light layers, cotton clothing"
+        },
+        "october": {
+          "temp_range": "16-26°C",
+          "description": "Warm weather",
+          "clothing": "Light layers, cotton clothing"
+        },
+        "november": {
+          "temp_range": "16-26°C",
+          "description": "Warm weather",
+          "clothing": "Light layers, cotton clothing"
+        },
+        "december": {
+          "temp_range": "6-16°C",
+          "description": "Cool weather",
+          "clothing": "Warm jacket, layers, long sleeves"
+        }
+      },
+      "source": "WeatherAPI",
+      "current_month_weather": {
+        "temp_range": "6-16°C",
+        "description": "Cool weather",
+        "clothing": "Warm jacket, layers, long sleeves"
+      }
+    }
+  },
+  "new york_usa": {
+    "timestamp": "2025-09-19T14:37:54.767302",
+    "data": {
+      "name": "New York",
+      "region": "New York, Usa",
+      "climate_type": "Tropical",
+      "seasonal_weather": {
+        "january": {
+          "temp_range": "20-30°C",
+          "description": "Warm tropical",
+          "clothing": "Light cotton, breathable fabrics"
+        },
+        "february": {
+          "temp_range": "20-30°C",
+          "description": "Warm tropical",
+          "clothing": "Light cotton, breathable fabrics"
+        },
+        "march": {
+          "temp_range": "25-35°C",
+          "description": "Hot tropical",
+          "clothing": "Light cotton, sun protection, cooling fabrics"
+        },
+        "april": {
+          "temp_range": "25-35°C",
+          "description": "Hot tropical",
+          "clothing": "Light cotton, sun protection, cooling fabrics"
+        },
+        "may": {
+          "temp_range": "25-35°C",
+          "description": "Hot tropical",
+          "clothing": "Light cotton, sun protection, cooling fabrics"
+        },
+        "june": {
+          "temp_range": "23-33°C",
+          "description": "Humid tropical",
+          "clothing": "Light cotton, breathable fabrics"
+        },
+        "july": {
+          "temp_range": "23-33°C",
+          "description": "Humid tropical",
+          "clothing": "Light cotton, breathable fabrics"
+        },
+        "august": {
+          "temp_range": "23-33°C",
+          "description": "Humid tropical",
+          "clothing": "Light cotton, breathable fabrics"
+        },
+        "september": {
+          "temp_range": "23-33°C",
+          "description": "Humid tropical",
+          "clothing": "Light cotton, breathable fabrics"
+        },
+        "october": {
+          "temp_range": "25-35°C",
+          "description": "Hot tropical",
+          "clothing": "Light cotton, sun protection, cooling fabrics"
+        },
+        "november": {
+          "temp_range": "25-35°C",
+          "description": "Hot tropical",
+          "clothing": "Light cotton, sun protection, cooling fabrics"
+        },
+        "december": {
+          "temp_range": "20-30°C",
+          "description": "Warm tropical",
+          "clothing": "Light cotton, breathable fabrics"
+        }
+      },
+      "source": "Wikipedia",
+      "current_month_weather": {
+        "temp_range": "23-33°C",
+        "description": "Humid tropical",
+        "clothing": "Light cotton, breathable fabrics"
+      }
+    }
+  },
+  "sydney_australia": {
+    "timestamp": "2025-09-19T14:37:57.497263",
+    "data": {
+      "name": "Sydney",
+      "region": "Sydney, Australia",
+      "climate_type": "Tropical",
+      "seasonal_weather": {
+        "january": {
+          "temp_range": "20-30°C",
+          "description": "Warm tropical",
+          "clothing": "Light cotton, breathable fabrics"
+        },
+        "february": {
+          "temp_range": "20-30°C",
+          "description": "Warm tropical",
+          "clothing": "Light cotton, breathable fabrics"
+        },
+        "march": {
+          "temp_range": "25-35°C",
+          "description": "Hot tropical",
+          "clothing": "Light cotton, sun protection, cooling fabrics"
+        },
+        "april": {
+          "temp_range": "25-35°C",
+          "description": "Hot tropical",
+          "clothing": "Light cotton, sun protection, cooling fabrics"
+        },
+        "may": {
+          "temp_range": "25-35°C",
+          "description": "Hot tropical",
+          "clothing": "Light cotton, sun protection, cooling fabrics"
+        },
+        "june": {
+          "temp_range": "23-33°C",
+          "description": "Humid tropical",
+          "clothing": "Light cotton, breathable fabrics"
+        },
+        "july": {
+          "temp_range": "23-33°C",
+          "description": "Humid tropical",
+          "clothing": "Light cotton, breathable fabrics"
+        },
+        "august": {
+          "temp_range": "23-33°C",
+          "description": "Humid tropical",
+          "clothing": "Light cotton, breathable fabrics"
+        },
+        "september": {
+          "temp_range": "23-33°C",
+          "description": "Humid tropical",
+          "clothing": "Light cotton, breathable fabrics"
+        },
+        "october": {
+          "temp_range": "25-35°C",
+          "description": "Hot tropical",
+          "clothing": "Light cotton, sun protection, cooling fabrics"
+        },
+        "november": {
+          "temp_range": "25-35°C",
+          "description": "Hot tropical",
+          "clothing": "Light cotton, sun protection, cooling fabrics"
+        },
+        "december": {
+          "temp_range": "20-30°C",
+          "description": "Warm tropical",
+          "clothing": "Light cotton, breathable fabrics"
+        }
+      },
+      "source": "Wikipedia",
+      "current_month_weather": {
+        "temp_range": "20-30°C",
+        "description": "Warm tropical",
+        "clothing": "Light cotton, breathable fabrics"
+      }
+    }
+  },
+  "karachi_pakistan": {
+    "timestamp": "2025-09-19T14:37:57.500986",
+    "data": {
+      "name": "Karachi",
+      "region": "Coastal Sindh",
+      "climate_type": "Tropical desert",
+      "seasonal_weather": {
+        "january": {
+          "temp_range": "15-25°C",
+          "description": "Mild and pleasant",
+          "clothing": "Light layers, cotton clothing"
+        },
+        "february": {
+          "temp_range": "16-26°C",
+          "description": "Warm and comfortable",
+          "clothing": "Light cotton, short sleeves"
+        },
+        "march": {
+          "temp_range": "20-30°C",
+          "description": "Getting warmer",
+          "clothing": "Light cotton, breathable fabrics"
+        },
+        "april": {
+          "temp_range": "24-34°C",
+          "description": "Hot spring",
+          "clothing": "Light cotton, loose clothing"
+        },
+        "may": {
+          "temp_range": "27-37°C",
+          "description": "Very hot",
+          "clothing": "Light cotton, sun protection"
+        },
+        "june": {
+          "temp_range": "28-38°C",
+          "description": "Peak summer heat",
+          "clothing": "Light cotton, cooling fabrics"
+        },
+        "july": {
+          "temp_range": "29-35°C",
+          "description": "Hot with humidity",
+          "clothing": "Light cotton, moisture-wicking"
+        },
+        "august": {
+          "temp_range": "28-34°C",
+          "description": "Hot and humid",
+          "clothing": "Light cotton, breathable"
+        },
+        "september": {
+          "temp_range": "26-32°C",
+          "description": "Still warm",
+          "clothing": "Light cotton, transitional"
+        },
+        "october": {
+          "temp_range": "22-30°C",
+          "description": "Pleasant autumn",
+          "clothing": "Light layers"
+        },
+        "november": {
+          "temp_range": "18-26°C",
+          "description": "Cooling down",
+          "clothing": "Light jacket, long sleeves"
+        },
+        "december": {
+          "temp_range": "14-22°C",
+          "description": "Cool winter",
+          "clothing": "Light jacket, warm layers"
+        }
+      },
+      "current_month_weather": {
+        "temp_range": "29-35°C",
+        "description": "Hot with humidity",
+        "clothing": "Light cotton, moisture-wicking"
+      }
+    }
+  },
+  "mumbai_india": {
+    "timestamp": "2025-09-19T14:39:19.085957",
+    "data": {
+      "name": "Mumbai",
+      "region": "Mumbai, India",
+      "climate_type": "Tropical",
+      "seasonal_weather": {
+        "january": {
+          "temp_range": "20-30°C",
+          "description": "Warm tropical",
+          "clothing": "Light cotton, breathable fabrics"
+        },
+        "february": {
+          "temp_range": "20-30°C",
+          "description": "Warm tropical",
+          "clothing": "Light cotton, breathable fabrics"
+        },
+        "march": {
+          "temp_range": "25-35°C",
+          "description": "Hot tropical",
+          "clothing": "Light cotton, sun protection, cooling fabrics"
+        },
+        "april": {
+          "temp_range": "25-35°C",
+          "description": "Hot tropical",
+          "clothing": "Light cotton, sun protection, cooling fabrics"
+        },
+        "may": {
+          "temp_range": "25-35°C",
+          "description": "Hot tropical",
+          "clothing": "Light cotton, sun protection, cooling fabrics"
+        },
+        "june": {
+          "temp_range": "23-33°C",
+          "description": "Humid tropical",
+          "clothing": "Light cotton, breathable fabrics"
+        },
+        "july": {
+          "temp_range": "23-33°C",
+          "description": "Humid tropical",
+          "clothing": "Light cotton, breathable fabrics"
+        },
+        "august": {
+          "temp_range": "23-33°C",
+          "description": "Humid tropical",
+          "clothing": "Light cotton, breathable fabrics"
+        },
+        "september": {
+          "temp_range": "23-33°C",
+          "description": "Humid tropical",
+          "clothing": "Light cotton, breathable fabrics"
+        },
+        "october": {
+          "temp_range": "25-35°C",
+          "description": "Hot tropical",
+          "clothing": "Light cotton, sun protection, cooling fabrics"
+        },
+        "november": {
+          "temp_range": "25-35°C",
+          "description": "Hot tropical",
+          "clothing": "Light cotton, sun protection, cooling fabrics"
+        },
+        "december": {
+          "temp_range": "20-30°C",
+          "description": "Warm tropical",
+          "clothing": "Light cotton, breathable fabrics"
+        }
+      },
+      "source": "Wikipedia",
+      "current_month_weather": {
+        "temp_range": "25-35°C",
+        "description": "Hot tropical",
+        "clothing": "Light cotton, sun protection, cooling fabrics"
+      }
+    }
+  },
+  "dubai_dubai": {
+    "timestamp": "2025-09-19T14:39:22.311319",
+    "data": {
+      "name": "Dubai",
+      "region": "Dubai, Dubai",
+      "climate_type": "Tropical",
+      "seasonal_weather": {
+        "january": {
+          "temp_range": "20-30°C",
+          "description": "Warm tropical",
+          "clothing": "Light cotton, breathable fabrics"
+        },
+        "february": {
+          "temp_range": "20-30°C",
+          "description": "Warm tropical",
+          "clothing": "Light cotton, breathable fabrics"
+        },
+        "march": {
+          "temp_range": "25-35°C",
+          "description": "Hot tropical",
+          "clothing": "Light cotton, sun protection, cooling fabrics"
+        },
+        "april": {
+          "temp_range": "25-35°C",
+          "description": "Hot tropical",
+          "clothing": "Light cotton, sun protection, cooling fabrics"
+        },
+        "may": {
+          "temp_range": "25-35°C",
+          "description": "Hot tropical",
+          "clothing": "Light cotton, sun protection, cooling fabrics"
+        },
+        "june": {
+          "temp_range": "23-33°C",
+          "description": "Humid tropical",
+          "clothing": "Light cotton, breathable fabrics"
+        },
+        "july": {
+          "temp_range": "23-33°C",
+          "description": "Humid tropical",
+          "clothing": "Light cotton, breathable fabrics"
+        },
+        "august": {
+          "temp_range": "23-33°C",
+          "description": "Humid tropical",
+          "clothing": "Light cotton, breathable fabrics"
+        },
+        "september": {
+          "temp_range": "23-33°C",
+          "description": "Humid tropical",
+          "clothing": "Light cotton, breathable fabrics"
+        },
+        "october": {
+          "temp_range": "25-35°C",
+          "description": "Hot tropical",
+          "clothing": "Light cotton, sun protection, cooling fabrics"
+        },
+        "november": {
+          "temp_range": "25-35°C",
+          "description": "Hot tropical",
+          "clothing": "Light cotton, sun protection, cooling fabrics"
+        },
+        "december": {
+          "temp_range": "20-30°C",
+          "description": "Warm tropical",
+          "clothing": "Light cotton, breathable fabrics"
+        }
+      },
+      "source": "Wikipedia",
+      "current_month_weather": {
+        "temp_range": "23-33°C",
+        "description": "Humid tropical",
+        "clothing": "Light cotton, breathable fabrics"
+      }
+    }
+  },
+  "paris_france": {
+    "timestamp": "2025-09-19T14:39:28.180544",
+    "data": {
+      "name": "Paris",
+      "region": "Paris, France",
+      "climate_type": "Unknown",
+      "seasonal_weather": {
+        "june": {
+          "temp_range": "0 °c°C",
+          "description": "Warm weather",
+          "clothing": "Light layers, cotton clothing"
+        },
+        "july": {
+          "temp_range": "9 °c°C",
+          "description": "Warm weather",
+          "clothing": "Light layers, cotton clothing"
+        },
+        "december": {
+          "temp_range": "5 °c°C",
+          "description": "Warm weather",
+          "clothing": "Light layers, cotton clothing"
+        }
+      },
+      "source": "Wikipedia",
+      "current_month_weather": {
+        "temp_range": "0 °c°C",
+        "description": "Warm weather",
+        "clothing": "Light layers, cotton clothing"
+      }
+    }
+  },
+  "moscow_russia": {
+    "timestamp": "2025-09-19T14:39:30.971522",
+    "data": {
+      "name": "Moscow",
+      "region": "Moscow, Russia",
+      "climate_type": "Unknown",
+      "seasonal_weather": {
+        "may": {
+          "temp_range": "30 °c°C",
+          "description": "Warm weather",
+          "clothing": "Light layers, cotton clothing"
+        },
+        "june": {
+          "temp_range": "23 °c°C",
+          "description": "Warm weather",
+          "clothing": "Light layers, cotton clothing"
+        },
+        "july": {
+          "temp_range": "23 °c°C",
+          "description": "Warm weather",
+          "clothing": "Light layers, cotton clothing"
+        },
+        "august": {
+          "temp_range": "23 °c°C",
+          "description": "Warm weather",
+          "clothing": "Light layers, cotton clothing"
+        },
+        "september": {
+          "temp_range": "30 °c°C",
+          "description": "Warm weather",
+          "clothing": "Light layers, cotton clothing"
+        }
+      },
+      "source": "Wikipedia"
+    }
+  },
+  "vancouver_canada": {
+    "timestamp": "2025-09-19T14:39:33.887234",
+    "data": {
+      "name": "Vancouver",
+      "region": "Vancouver, Canada",
+      "climate_type": "Temperate",
+      "seasonal_weather": {
+        "january": {
+          "temp_range": "0-10°C",
+          "description": "Cold temperate",
+          "clothing": "Heavy coat, warm layers, warm hat"
+        },
+        "february": {
+          "temp_range": "0-10°C",
+          "description": "Cold temperate",
+          "clothing": "Heavy coat, warm layers, warm hat"
+        },
+        "march": {
+          "temp_range": "10-20°C",
+          "description": "Mild temperate",
+          "clothing": "Light jacket, long sleeves, layers"
+        },
+        "april": {
+          "temp_range": "10-20°C",
+          "description": "Mild temperate",
+          "clothing": "Light jacket, long sleeves, layers"
+        },
+        "may": {
+          "temp_range": "10-20°C",
+          "description": "Mild temperate",
+          "clothing": "Light jacket, long sleeves, layers"
+        },
+        "june": {
+          "temp_range": "17-27°C",
+          "description": "Warm temperate",
+          "clothing": "Light layers, cotton clothing"
+        },
+        "july": {
+          "temp_range": "17-27°C",
+          "description": "Warm temperate",
+          "clothing": "Light layers, cotton clothing"
+        },
+        "august": {
+          "temp_range": "17-27°C",
+          "description": "Warm temperate",
+          "clothing": "Light layers, cotton clothing"
+        },
+        "september": {
+          "temp_range": "7-17°C",
+          "description": "Cool temperate",
+          "clothing": "Warm jacket, layers, long sleeves"
+        },
+        "october": {
+          "temp_range": "7-17°C",
+          "description": "Cool temperate",
+          "clothing": "Warm jacket, layers, long sleeves"
+        },
+        "november": {
+          "temp_range": "7-17°C",
+          "description": "Cool temperate",
+          "clothing": "Warm jacket, layers, long sleeves"
+        },
+        "december": {
+          "temp_range": "0-10°C",
+          "description": "Cold temperate",
+          "clothing": "Heavy coat, warm layers, warm hat"
+        }
+      },
+      "source": "Wikipedia",
+      "current_month_weather": {
+        "temp_range": "0-10°C",
+        "description": "Cold temperate",
+        "clothing": "Heavy coat, warm layers, warm hat"
+      }
+    }
+  },
+  "mexico city_mexico": {
+    "timestamp": "2025-09-19T14:39:36.776782",
+    "data": {
+      "name": "Mexico City",
+      "region": "Mexico City, Mexico",
+      "climate_type": "Tropical",
+      "seasonal_weather": {
+        "january": {
+          "temp_range": "20-30°C",
+          "description": "Warm tropical",
+          "clothing": "Light cotton, breathable fabrics"
+        },
+        "february": {
+          "temp_range": "20-30°C",
+          "description": "Warm tropical",
+          "clothing": "Light cotton, breathable fabrics"
+        },
+        "march": {
+          "temp_range": "25-35°C",
+          "description": "Hot tropical",
+          "clothing": "Light cotton, sun protection, cooling fabrics"
+        },
+        "april": {
+          "temp_range": "25-35°C",
+          "description": "Hot tropical",
+          "clothing": "Light cotton, sun protection, cooling fabrics"
+        },
+        "may": {
+          "temp_range": "25-35°C",
+          "description": "Hot tropical",
+          "clothing": "Light cotton, sun protection, cooling fabrics"
+        },
+        "june": {
+          "temp_range": "23-33°C",
+          "description": "Humid tropical",
+          "clothing": "Light cotton, breathable fabrics"
+        },
+        "july": {
+          "temp_range": "23-33°C",
+          "description": "Humid tropical",
+          "clothing": "Light cotton, breathable fabrics"
+        },
+        "august": {
+          "temp_range": "23-33°C",
+          "description": "Humid tropical",
+          "clothing": "Light cotton, breathable fabrics"
+        },
+        "september": {
+          "temp_range": "23-33°C",
+          "description": "Humid tropical",
+          "clothing": "Light cotton, breathable fabrics"
+        },
+        "october": {
+          "temp_range": "25-35°C",
+          "description": "Hot tropical",
+          "clothing": "Light cotton, sun protection, cooling fabrics"
+        },
+        "november": {
+          "temp_range": "25-35°C",
+          "description": "Hot tropical",
+          "clothing": "Light cotton, sun protection, cooling fabrics"
+        },
+        "december": {
+          "temp_range": "20-30°C",
+          "description": "Warm tropical",
+          "clothing": "Light cotton, breathable fabrics"
+        }
+      },
+      "source": "Wikipedia",
+      "current_month_weather": {
+        "temp_range": "25-35°C",
+        "description": "Hot tropical",
+        "clothing": "Light cotton, sun protection, cooling fabrics"
+      }
+    }
+  },
+  "rio de janeiro_brazil": {
+    "timestamp": "2025-09-19T14:39:45.054175",
+    "data": {
+      "name": "Rio De Janeiro",
+      "region": "Rio De Janeiro, Brazil",
+      "climate_type": "Continental",
+      "seasonal_weather": {
+        "january": {
+          "temp_range": "-10-0°C",
+          "description": "Very cold continental",
+          "clothing": "Heavy winter coat, thermal layers, gloves, scarf"
+        },
+        "february": {
+          "temp_range": "-10-0°C",
+          "description": "Very cold continental",
+          "clothing": "Heavy winter coat, thermal layers, gloves, scarf"
+        },
+        "march": {
+          "temp_range": "5-15°C",
+          "description": "Cool continental",
+          "clothing": "Warm jacket, layers, long sleeves"
+        },
+        "april": {
+          "temp_range": "5-15°C",
+          "description": "Cool continental",
+          "clothing": "Warm jacket, layers, long sleeves"
+        },
+        "may": {
+          "temp_range": "5-15°C",
+          "description": "Cool continental",
+          "clothing": "Warm jacket, layers, long sleeves"
+        },
+        "june": {
+          "temp_range": "15-25°C",
+          "description": "Warm continental",
+          "clothing": "Light layers, cotton clothing"
+        },
+        "july": {
+          "temp_range": "15-25°C",
+          "description": "Warm continental",
+          "clothing": "Light layers, cotton clothing"
+        },
+        "august": {
+          "temp_range": "15-25°C",
+          "description": "Warm continental",
+          "clothing": "Light layers, cotton clothing"
+        },
+        "september": {
+          "temp_range": "5-15°C",
+          "description": "Cool continental",
+          "clothing": "Warm jacket, layers, long sleeves"
+        },
+        "october": {
+          "temp_range": "5-15°C",
+          "description": "Cool continental",
+          "clothing": "Warm jacket, layers, long sleeves"
+        },
+        "november": {
+          "temp_range": "5-15°C",
+          "description": "Cool continental",
+          "clothing": "Warm jacket, layers, long sleeves"
+        },
+        "december": {
+          "temp_range": "-10-0°C",
+          "description": "Very cold continental",
+          "clothing": "Heavy winter coat, thermal layers, gloves, scarf"
+        }
+      },
+      "source": "Wikipedia",
+      "current_month_weather": {
+        "temp_range": "-10-0°C",
+        "description": "Very cold continental",
+        "clothing": "Heavy winter coat, thermal layers, gloves, scarf"
+      }
+    }
+  },
+  "buenos aires_argentina": {
+    "timestamp": "2025-09-19T14:39:48.074722",
+    "data": {
+      "name": "Buenos Aires",
+      "region": "Buenos Aires, Argentina",
+      "climate_type": "Tropical",
+      "seasonal_weather": {
+        "january": {
+          "temp_range": "20-30°C",
+          "description": "Warm tropical",
+          "clothing": "Light cotton, breathable fabrics"
+        },
+        "february": {
+          "temp_range": "20-30°C",
+          "description": "Warm tropical",
+          "clothing": "Light cotton, breathable fabrics"
+        },
+        "march": {
+          "temp_range": "25-35°C",
+          "description": "Hot tropical",
+          "clothing": "Light cotton, sun protection, cooling fabrics"
+        },
+        "april": {
+          "temp_range": "25-35°C",
+          "description": "Hot tropical",
+          "clothing": "Light cotton, sun protection, cooling fabrics"
+        },
+        "may": {
+          "temp_range": "25-35°C",
+          "description": "Hot tropical",
+          "clothing": "Light cotton, sun protection, cooling fabrics"
+        },
+        "june": {
+          "temp_range": "23-33°C",
+          "description": "Humid tropical",
+          "clothing": "Light cotton, breathable fabrics"
+        },
+        "july": {
+          "temp_range": "23-33°C",
+          "description": "Humid tropical",
+          "clothing": "Light cotton, breathable fabrics"
+        },
+        "august": {
+          "temp_range": "23-33°C",
+          "description": "Humid tropical",
+          "clothing": "Light cotton, breathable fabrics"
+        },
+        "september": {
+          "temp_range": "23-33°C",
+          "description": "Humid tropical",
+          "clothing": "Light cotton, breathable fabrics"
+        },
+        "october": {
+          "temp_range": "25-35°C",
+          "description": "Hot tropical",
+          "clothing": "Light cotton, sun protection, cooling fabrics"
+        },
+        "november": {
+          "temp_range": "25-35°C",
+          "description": "Hot tropical",
+          "clothing": "Light cotton, sun protection, cooling fabrics"
+        },
+        "december": {
+          "temp_range": "20-30°C",
+          "description": "Warm tropical",
+          "clothing": "Light cotton, breathable fabrics"
+        }
+      },
+      "source": "Wikipedia",
+      "current_month_weather": {
+        "temp_range": "23-33°C",
+        "description": "Humid tropical",
+        "clothing": "Light cotton, breathable fabrics"
+      }
+    }
+  },
+  "cairo_egypt": {
+    "timestamp": "2025-09-19T14:39:50.871356",
+    "data": {
+      "name": "Cairo",
+      "region": "Cairo, Egypt",
+      "climate_type": "Desert",
+      "seasonal_weather": {
+        "january": {
+          "temp_range": "10-20°C",
+          "description": "Cool desert",
+          "clothing": "Light jacket, long sleeves, layers"
+        },
+        "february": {
+          "temp_range": "10-20°C",
+          "description": "Cool desert",
+          "clothing": "Light jacket, long sleeves, layers"
+        },
+        "march": {
+          "temp_range": "20-30°C",
+          "description": "Warm desert",
+          "clothing": "Light cotton, breathable fabrics"
+        },
+        "april": {
+          "temp_range": "20-30°C",
+          "description": "Warm desert",
+          "clothing": "Light cotton, breathable fabrics"
+        },
+        "may": {
+          "temp_range": "20-30°C",
+          "description": "Warm desert",
+          "clothing": "Light cotton, breathable fabrics"
+        },
+        "june": {
+          "temp_range": "30-40°C",
+          "description": "Very hot desert",
+          "clothing": "Light cotton, sun protection, cooling fabrics"
+        },
+        "july": {
+          "temp_range": "30-40°C",
+          "description": "Very hot desert",
+          "clothing": "Light cotton, sun protection, cooling fabrics"
+        },
+        "august": {
+          "temp_range": "30-40°C",
+          "description": "Very hot desert",
+          "clothing": "Light cotton, sun protection, cooling fabrics"
+        },
+        "september": {
+          "temp_range": "30-40°C",
+          "description": "Very hot desert",
+          "clothing": "Light cotton, sun protection, cooling fabrics"
+        },
+        "october": {
+          "temp_range": "30-40°C",
+          "description": "Very hot desert",
+          "clothing": "Light cotton, sun protection, cooling fabrics"
+        },
+        "november": {
+          "temp_range": "30-40°C",
+          "description": "Very hot desert",
+          "clothing": "Light cotton, sun protection, cooling fabrics"
+        },
+        "december": {
+          "temp_range": "10-20°C",
+          "description": "Cool desert",
+          "clothing": "Light jacket, long sleeves, layers"
+        }
+      },
+      "source": "Wikipedia",
+      "current_month_weather": {
+        "temp_range": "30-40°C",
+        "description": "Very hot desert",
+        "clothing": "Light cotton, sun protection, cooling fabrics"
+      }
+    }
+  },
+  "cape town_south africa": {
+    "timestamp": "2025-09-19T14:40:00.107116",
+    "data": {
+      "name": "Cape Town",
+      "region": "Cape Town, South Africa",
+      "climate_type": "Tropical",
+      "seasonal_weather": {
+        "january": {
+          "temp_range": "20-30°C",
+          "description": "Warm tropical",
+          "clothing": "Light cotton, breathable fabrics"
+        },
+        "february": {
+          "temp_range": "20-30°C",
+          "description": "Warm tropical",
+          "clothing": "Light cotton, breathable fabrics"
+        },
+        "march": {
+          "temp_range": "25-35°C",
+          "description": "Hot tropical",
+          "clothing": "Light cotton, sun protection, cooling fabrics"
+        },
+        "april": {
+          "temp_range": "25-35°C",
+          "description": "Hot tropical",
+          "clothing": "Light cotton, sun protection, cooling fabrics"
+        },
+        "may": {
+          "temp_range": "25-35°C",
+          "description": "Hot tropical",
+          "clothing": "Light cotton, sun protection, cooling fabrics"
+        },
+        "june": {
+          "temp_range": "23-33°C",
+          "description": "Humid tropical",
+          "clothing": "Light cotton, breathable fabrics"
+        },
+        "july": {
+          "temp_range": "23-33°C",
+          "description": "Humid tropical",
+          "clothing": "Light cotton, breathable fabrics"
+        },
+        "august": {
+          "temp_range": "23-33°C",
+          "description": "Humid tropical",
+          "clothing": "Light cotton, breathable fabrics"
+        },
+        "september": {
+          "temp_range": "23-33°C",
+          "description": "Humid tropical",
+          "clothing": "Light cotton, breathable fabrics"
+        },
+        "october": {
+          "temp_range": "25-35°C",
+          "description": "Hot tropical",
+          "clothing": "Light cotton, sun protection, cooling fabrics"
+        },
+        "november": {
+          "temp_range": "25-35°C",
+          "description": "Hot tropical",
+          "clothing": "Light cotton, sun protection, cooling fabrics"
+        },
+        "december": {
+          "temp_range": "20-30°C",
+          "description": "Warm tropical",
+          "clothing": "Light cotton, breathable fabrics"
+        }
+      },
+      "source": "Wikipedia",
+      "current_month_weather": {
+        "temp_range": "20-30°C",
+        "description": "Warm tropical",
+        "clothing": "Light cotton, breathable fabrics"
+      }
+    }
+  },
+  "auckland_new zealand": {
+    "timestamp": "2025-09-19T14:40:08.360245",
+    "data": {
+      "name": "Auckland",
+      "region": "Auckland, New Zealand",
+      "climate_type": "Tropical",
+      "seasonal_weather": {
+        "january": {
+          "temp_range": "20-30°C",
+          "description": "Warm tropical",
+          "clothing": "Light cotton, breathable fabrics"
+        },
+        "february": {
+          "temp_range": "20-30°C",
+          "description": "Warm tropical",
+          "clothing": "Light cotton, breathable fabrics"
+        },
+        "march": {
+          "temp_range": "25-35°C",
+          "description": "Hot tropical",
+          "clothing": "Light cotton, sun protection, cooling fabrics"
+        },
+        "april": {
+          "temp_range": "25-35°C",
+          "description": "Hot tropical",
+          "clothing": "Light cotton, sun protection, cooling fabrics"
+        },
+        "may": {
+          "temp_range": "25-35°C",
+          "description": "Hot tropical",
+          "clothing": "Light cotton, sun protection, cooling fabrics"
+        },
+        "june": {
+          "temp_range": "23-33°C",
+          "description": "Humid tropical",
+          "clothing": "Light cotton, breathable fabrics"
+        },
+        "july": {
+          "temp_range": "23-33°C",
+          "description": "Humid tropical",
+          "clothing": "Light cotton, breathable fabrics"
+        },
+        "august": {
+          "temp_range": "23-33°C",
+          "description": "Humid tropical",
+          "clothing": "Light cotton, breathable fabrics"
+        },
+        "september": {
+          "temp_range": "23-33°C",
+          "description": "Humid tropical",
+          "clothing": "Light cotton, breathable fabrics"
+        },
+        "october": {
+          "temp_range": "25-35°C",
+          "description": "Hot tropical",
+          "clothing": "Light cotton, sun protection, cooling fabrics"
+        },
+        "november": {
+          "temp_range": "25-35°C",
+          "description": "Hot tropical",
+          "clothing": "Light cotton, sun protection, cooling fabrics"
+        },
+        "december": {
+          "temp_range": "20-30°C",
+          "description": "Warm tropical",
+          "clothing": "Light cotton, breathable fabrics"
+        }
+      },
+      "source": "Wikipedia",
+      "current_month_weather": {
+        "temp_range": "23-33°C",
+        "description": "Humid tropical",
+        "clothing": "Light cotton, breathable fabrics"
+      }
+    }
+  },
+  "skardu_pakistan": {
+    "timestamp": "2025-09-19T14:40:08.369135",
+    "data": {
+      "name": "Skardu",
+      "region": "Northern Areas",
+      "climate_type": "Cold desert",
+      "seasonal_weather": {
+        "january": {
+          "temp_range": "-10-5°C",
+          "description": "Very cold winter",
+          "clothing": "Heavy winter coat, thermal layers, gloves"
+        },
+        "february": {
+          "temp_range": "-8-7°C",
+          "description": "Cold winter",
+          "clothing": "Heavy coat, multiple layers, warm hat"
+        },
+        "march": {
+          "temp_range": "-2-12°C",
+          "description": "Cold spring",
+          "clothing": "Heavy jacket, warm layers"
+        },
+        "april": {
+          "temp_range": "3-18°C",
+          "description": "Cool spring",
+          "clothing": "Warm jacket, layers"
+        },
+        "may": {
+          "temp_range": "8-23°C",
+          "description": "Mild spring",
+          "clothing": "Light jacket, long sleeves"
+        },
+        "june": {
+          "temp_range": "12-28°C",
+          "description": "Warm summer",
+          "clothing": "Light layers, cotton"
+        },
+        "july": {
+          "temp_range": "15-25°C",
+          "description": "Cool summer",
+          "clothing": "Light jacket, long sleeves"
+        },
+        "august": {
+          "temp_range": "14-24°C",
+          "description": "Cool summer",
+          "clothing": "Light jacket, layers"
+        },
+        "september": {
+          "temp_range": "8-20°C",
+          "description": "Cool autumn",
+          "clothing": "Warm layers, jacket"
+        },
+        "october": {
+          "temp_range": "0-12°C",
+          "description": "Cold autumn",
+          "clothing": "Heavy jacket, thermal layers"
+        },
+        "november": {
+          "temp_range": "-5-5°C",
+          "description": "Very cold",
+          "clothing": "Heavy coat, multiple layers"
+        },
+        "december": {
+          "temp_range": "-12-2°C",
+          "description": "Extremely cold",
+          "clothing": "Heavy winter coat, thermal base layers"
+        }
+      },
+      "current_month_weather": {
+        "temp_range": "15-25°C",
+        "description": "Cool summer",
+        "clothing": "Light jacket, long sleeves"
+      }
+    }
+  },
+  "pakistan_pakistan": {
+    "timestamp": "2025-09-19T14:40:54.778902",
+    "data": {
+      "name": "Pakistan",
+      "region": "Pakistan, Pakistan",
+      "climate_type": "Unknown",
+      "seasonal_weather": {
+        "may": {
+          "temp_range": "11 °c°C",
+          "description": "Warm weather",
+          "clothing": "Light layers, cotton clothing"
+        },
+        "june": {
+          "temp_range": "38 °c°C",
+          "description": "Warm weather",
+          "clothing": "Light layers, cotton clothing"
+        }
+      },
+      "source": "Wikipedia"
+    }
+  },
+  "pakistan_skardu": {
+    "timestamp": "2025-09-19T14:40:57.513658",
+    "data": {
+      "name": "Pakistan",
+      "region": "Pakistan, Skardu",
+      "climate_type": "Unknown",
+      "seasonal_weather": {
+        "may": {
+          "temp_range": "11 °c°C",
+          "description": "Warm weather",
+          "clothing": "Light layers, cotton clothing"
+        },
+        "june": {
+          "temp_range": "38 °c°C",
+          "description": "Warm weather",
+          "clothing": "Light layers, cotton clothing"
+        }
+      },
+      "source": "Wikipedia"
+    }
+  },
+  "pakistan_quetta": {
+    "timestamp": "2025-09-19T14:41:00.295329",
+    "data": {
+      "name": "Pakistan",
+      "region": "Pakistan, Quetta",
+      "climate_type": "Unknown",
+      "seasonal_weather": {
+        "may": {
+          "temp_range": "11 °c°C",
+          "description": "Warm weather",
+          "clothing": "Light layers, cotton clothing"
+        },
+        "june": {
+          "temp_range": "38 °c°C",
+          "description": "Warm weather",
+          "clothing": "Light layers, cotton clothing"
+        }
+      },
+      "source": "Wikipedia"
+    }
+  },
+  "lahore_pakistan": {
+    "timestamp": "2025-09-19T14:42:02.142174",
+    "data": {
+      "name": "Lahore",
+      "region": "Punjab Plains",
+      "climate_type": "Subtropical",
+      "seasonal_weather": {
+        "january": {
+          "temp_range": "8-18°C",
+          "description": "Cool winter",
+          "clothing": "Warm layers, light jacket"
+        },
+        "february": {
+          "temp_range": "10-22°C",
+          "description": "Mild spring-like",
+          "clothing": "Light layers, sweater"
+        },
+        "march": {
+          "temp_range": "15-27°C",
+          "description": "Warm spring",
+          "clothing": "Light jacket, cotton"
+        },
+        "april": {
+          "temp_range": "20-33°C",
+          "description": "Hot spring",
+          "clothing": "Light cotton, sun hat"
+        },
+        "may": {
+          "temp_range": "25-38°C",
+          "description": "Very hot",
+          "clothing": "Light cotton, sun protection"
+        },
+        "june": {
+          "temp_range": "28-40°C",
+          "description": "Peak summer heat",
+          "clothing": "Light cotton, cooling fabrics"
+        },
+        "july": {
+          "temp_range": "29-36°C",
+          "description": "Hot with monsoon",
+          "clothing": "Light cotton, rain protection"
+        },
+        "august": {
+          "temp_range": "28-35°C",
+          "description": "Hot and humid",
+          "clothing": "Light cotton, breathable"
+        },
+        "september": {
+          "temp_range": "25-32°C",
+          "description": "Still warm",
+          "clothing": "Light cotton, transitional"
+        },
+        "october": {
+          "temp_range": "18-28°C",
+          "description": "Pleasant autumn",
+          "clothing": "Light layers"
+        },
+        "november": {
+          "temp_range": "12-22°C",
+          "description": "Cooling down",
+          "clothing": "Light jacket, long sleeves"
+        },
+        "december": {
+          "temp_range": "8-16°C",
+          "description": "Cold winter",
+          "clothing": "Warm jacket, layers"
+        }
+      },
+      "current_month_weather": {
+        "temp_range": "15-27°C",
+        "description": "Warm spring",
+        "clothing": "Light jacket, cotton"
+      }
+    }
+  },
+  "quetta_pakistan": {
+    "timestamp": "2025-09-19T14:42:24.281511",
+    "data": {
+      "name": "Quetta",
+      "region": "Quetta, Pakistan",
+      "climate_type": "Unknown",
+      "seasonal_weather": {
+        "march": {
+          "temp_range": "4 °c°C",
+          "description": "Warm weather",
+          "clothing": "Light layers, cotton clothing"
+        },
+        "april": {
+          "temp_range": "15 °c°C",
+          "description": "Warm weather",
+          "clothing": "Light layers, cotton clothing"
+        },
+        "may": {
+          "temp_range": "24 °c°C",
+          "description": "Warm weather",
+          "clothing": "Light layers, cotton clothing"
+        },
+        "july": {
+          "temp_range": "3 °c°C",
+          "description": "Warm weather",
+          "clothing": "Light layers, cotton clothing"
+        },
+        "september": {
+          "temp_range": "24 °c°C",
+          "description": "Warm weather",
+          "clothing": "Light layers, cotton clothing"
+        },
+        "november": {
+          "temp_range": "12 °c°C",
+          "description": "Warm weather",
+          "clothing": "Light layers, cotton clothing"
+        }
+      },
+      "source": "Wikipedia"
+    }
+  },
+  "islamabad_pakistan": {
+    "timestamp": "2025-09-19T15:19:02.600649",
+    "data": {
+      "name": "Islamabad",
+      "region": "Northern Pakistan",
+      "climate_type": "Subtropical highland",
+      "seasonal_weather": {
+        "january": {
+          "temp_range": "3-12°C",
+          "description": "Cold winter",
+          "clothing": "Warm coat, layers, scarf"
+        },
+        "february": {
+          "temp_range": "5-15°C",
+          "description": "Cool spring",
+          "clothing": "Warm layers, light jacket"
+        },
+        "march": {
+          "temp_range": "10-20°C",
+          "description": "Mild spring",
+          "clothing": "Light jacket, long sleeves"
+        },
+        "april": {
+          "temp_range": "15-25°C",
+          "description": "Warm spring",
+          "clothing": "Light layers, cotton"
+        },
+        "may": {
+          "temp_range": "20-30°C",
+          "description": "Hot spring",
+          "clothing": "Light cotton, sun protection"
+        },
+        "june": {
+          "temp_range": "23-33°C",
+          "description": "Warm summer",
+          "clothing": "Light cotton, breathable"
+        },
+        "july": {
+          "temp_range": "22-31°C",
+          "description": "Warm with rain",
+          "clothing": "Light layers, rain jacket"
+        },
+        "august": {
+          "temp_range": "21-30°C",
+          "description": "Warm and humid",
+          "clothing": "Light cotton, moisture-wicking"
+        },
+        "september": {
+          "temp_range": "18-27°C",
+          "description": "Pleasant autumn",
+          "clothing": "Light layers"
+        },
+        "october": {
+          "temp_range": "12-22°C",
+          "description": "Cool autumn",
+          "clothing": "Light jacket, long sleeves"
+        },
+        "november": {
+          "temp_range": "7-17°C",
+          "description": "Cold autumn",
+          "clothing": "Warm layers, jacket"
+        },
+        "december": {
+          "temp_range": "3-11°C",
+          "description": "Very cold winter",
+          "clothing": "Heavy coat, warm layers"
+        }
+      }
+    }
+  },
+  "delhi_india": {
+    "timestamp": "2025-09-19T15:19:23.709490",
+    "data": {
+      "name": "Delhi",
+      "region": "Delhi, India",
+      "climate_type": "Unknown",
+      "seasonal_weather": {
+        "january": {
+          "temp_range": "14 °c°C",
+          "description": "Warm weather",
+          "clothing": "Light layers, cotton clothing"
+        },
+        "april": {
+          "temp_range": "38 °c°C",
+          "description": "Warm weather",
+          "clothing": "Light layers, cotton clothing"
+        },
+        "may": {
+          "temp_range": "38 °c°C",
+          "description": "Warm weather",
+          "clothing": "Light layers, cotton clothing"
+        },
+        "june": {
+          "temp_range": "38 °c°C",
+          "description": "Warm weather",
+          "clothing": "Light layers, cotton clothing"
+        },
+        "september": {
+          "temp_range": "29 °c°C",
+          "description": "Warm weather",
+          "clothing": "Light layers, cotton clothing"
+        },
+        "october": {
+          "temp_range": "21 °c°C",
+          "description": "Warm weather",
+          "clothing": "Light layers, cotton clothing"
+        },
+        "november": {
+          "temp_range": "14 °c°C",
+          "description": "Warm weather",
+          "clothing": "Light layers, cotton clothing"
+        }
+      },
+      "source": "Wikipedia"
+    }
+  },
+  "i'm_turkey": {
+    "timestamp": "2025-09-21T12:58:40.901214",
+    "data": {
+      "name": "I'M",
+      "region": "I'M, Turkey",
+      "climate_type": "Unknown",
+      "seasonal_weather": {
+        "january": {
+          "temp_range": "0-10°C",
+          "description": "Cold winter",
+          "clothing": "Heavy coat, warm layers, warm hat"
+        },
+        "february": {
+          "temp_range": "0-10°C",
+          "description": "Cold winter",
+          "clothing": "Heavy coat, warm layers, warm hat"
+        },
+        "march": {
+          "temp_range": "5-15°C",
+          "description": "Cool weather",
+          "clothing": "Warm jacket, layers, long sleeves"
+        },
+        "april": {
+          "temp_range": "5-15°C",
+          "description": "Cool weather",
+          "clothing": "Warm jacket, layers, long sleeves"
+        },
+        "may": {
+          "temp_range": "5-15°C",
+          "description": "Cool weather",
+          "clothing": "Warm jacket, layers, long sleeves"
+        },
+        "june": {
+          "temp_range": "15-25°C",
+          "description": "Warm weather",
+          "clothing": "Light layers, cotton clothing"
+        },
+        "july": {
+          "temp_range": "15-25°C",
+          "description": "Warm weather",
+          "clothing": "Light layers, cotton clothing"
+        },
+        "august": {
+          "temp_range": "15-25°C",
+          "description": "Warm weather",
+          "clothing": "Light layers, cotton clothing"
+        },
+        "september": {
+          "temp_range": "10-20°C",
+          "description": "Mild weather",
+          "clothing": "Light jacket, long sleeves, layers"
+        },
+        "october": {
+          "temp_range": "10-20°C",
+          "description": "Mild weather",
+          "clothing": "Light jacket, long sleeves, layers"
+        },
+        "november": {
+          "temp_range": "10-20°C",
+          "description": "Mild weather",
+          "clothing": "Light jacket, long sleeves, layers"
+        },
+        "december": {
+          "temp_range": "0-10°C",
+          "description": "Cold winter",
+          "clothing": "Heavy coat, warm layers, warm hat"
+        }
+      },
+      "source": "WeatherAPI",
+      "current_month_weather": {
+        "temp_range": "10-20°C",
+        "description": "Mild weather",
+        "clothing": "Light jacket, long sleeves, layers"
+      }
+    }
+  },
+  "london_united kingdom": {
+    "timestamp": "2025-09-21T13:03:41.571210",
+    "data": {
+      "name": "London",
+      "region": "London, United Kingdom",
+      "climate_type": "Unknown",
+      "seasonal_weather": {
+        "january": {
+          "temp_range": "8 °c°C",
+          "description": "Warm weather",
+          "clothing": "Light layers, cotton clothing"
+        },
+        "july": {
+          "temp_range": "4 °c°C",
+          "description": "Warm weather",
+          "clothing": "Light layers, cotton clothing"
+        },
+        "december": {
+          "temp_range": "3 °c°C",
+          "description": "Warm weather",
+          "clothing": "Light layers, cotton clothing"
+        }
+      },
+      "source": "Wikipedia"
+    }
+  },
+  "istanbul_turkey": {
+    "timestamp": "2025-09-21T13:05:10.224831",
+    "data": {
+      "name": "Istanbul",
+      "region": "Istanbul, Turkey",
+      "climate_type": "Temperate",
+      "seasonal_weather": {
+        "january": {
+          "temp_range": "0-10°C",
+          "description": "Cold temperate",
+          "clothing": "Heavy coat, warm layers, warm hat"
+        },
+        "february": {
+          "temp_range": "0-10°C",
+          "description": "Cold temperate",
+          "clothing": "Heavy coat, warm layers, warm hat"
+        },
+        "march": {
+          "temp_range": "10-20°C",
+          "description": "Mild temperate",
+          "clothing": "Light jacket, long sleeves, layers"
+        },
+        "april": {
+          "temp_range": "10-20°C",
+          "description": "Mild temperate",
+          "clothing": "Light jacket, long sleeves, layers"
+        },
+        "may": {
+          "temp_range": "10-20°C",
+          "description": "Mild temperate",
+          "clothing": "Light jacket, long sleeves, layers"
+        },
+        "june": {
+          "temp_range": "17-27°C",
+          "description": "Warm temperate",
+          "clothing": "Light layers, cotton clothing"
+        },
+        "july": {
+          "temp_range": "17-27°C",
+          "description": "Warm temperate",
+          "clothing": "Light layers, cotton clothing"
+        },
+        "august": {
+          "temp_range": "17-27°C",
+          "description": "Warm temperate",
+          "clothing": "Light layers, cotton clothing"
+        },
+        "september": {
+          "temp_range": "7-17°C",
+          "description": "Cool temperate",
+          "clothing": "Warm jacket, layers, long sleeves"
+        },
+        "october": {
+          "temp_range": "7-17°C",
+          "description": "Cool temperate",
+          "clothing": "Warm jacket, layers, long sleeves"
+        },
+        "november": {
+          "temp_range": "7-17°C",
+          "description": "Cool temperate",
+          "clothing": "Warm jacket, layers, long sleeves"
+        },
+        "december": {
+          "temp_range": "0-10°C",
+          "description": "Cold temperate",
+          "clothing": "Heavy coat, warm layers, warm hat"
+        }
+      },
+      "source": "Wikipedia"
+    }
+  }
+}
