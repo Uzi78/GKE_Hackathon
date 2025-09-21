@@ -1498,5 +1498,178 @@
       },
       "source": "Wikipedia"
     }
+  },
+  "i'm_turkey": {
+    "timestamp": "2025-09-21T12:58:40.901214",
+    "data": {
+      "name": "I'M",
+      "region": "I'M, Turkey",
+      "climate_type": "Unknown",
+      "seasonal_weather": {
+        "january": {
+          "temp_range": "0-10°C",
+          "description": "Cold winter",
+          "clothing": "Heavy coat, warm layers, warm hat"
+        },
+        "february": {
+          "temp_range": "0-10°C",
+          "description": "Cold winter",
+          "clothing": "Heavy coat, warm layers, warm hat"
+        },
+        "march": {
+          "temp_range": "5-15°C",
+          "description": "Cool weather",
+          "clothing": "Warm jacket, layers, long sleeves"
+        },
+        "april": {
+          "temp_range": "5-15°C",
+          "description": "Cool weather",
+          "clothing": "Warm jacket, layers, long sleeves"
+        },
+        "may": {
+          "temp_range": "5-15°C",
+          "description": "Cool weather",
+          "clothing": "Warm jacket, layers, long sleeves"
+        },
+        "june": {
+          "temp_range": "15-25°C",
+          "description": "Warm weather",
+          "clothing": "Light layers, cotton clothing"
+        },
+        "july": {
+          "temp_range": "15-25°C",
+          "description": "Warm weather",
+          "clothing": "Light layers, cotton clothing"
+        },
+        "august": {
+          "temp_range": "15-25°C",
+          "description": "Warm weather",
+          "clothing": "Light layers, cotton clothing"
+        },
+        "september": {
+          "temp_range": "10-20°C",
+          "description": "Mild weather",
+          "clothing": "Light jacket, long sleeves, layers"
+        },
+        "october": {
+          "temp_range": "10-20°C",
+          "description": "Mild weather",
+          "clothing": "Light jacket, long sleeves, layers"
+        },
+        "november": {
+          "temp_range": "10-20°C",
+          "description": "Mild weather",
+          "clothing": "Light jacket, long sleeves, layers"
+        },
+        "december": {
+          "temp_range": "0-10°C",
+          "description": "Cold winter",
+          "clothing": "Heavy coat, warm layers, warm hat"
+        }
+      },
+      "source": "WeatherAPI",
+      "current_month_weather": {
+        "temp_range": "10-20°C",
+        "description": "Mild weather",
+        "clothing": "Light jacket, long sleeves, layers"
+      }
+    }
+  },
+  "london_united kingdom": {
+    "timestamp": "2025-09-21T13:03:41.571210",
+    "data": {
+      "name": "London",
+      "region": "London, United Kingdom",
+      "climate_type": "Unknown",
+      "seasonal_weather": {
+        "january": {
+          "temp_range": "8 °c°C",
+          "description": "Warm weather",
+          "clothing": "Light layers, cotton clothing"
+        },
+        "july": {
+          "temp_range": "4 °c°C",
+          "description": "Warm weather",
+          "clothing": "Light layers, cotton clothing"
+        },
+        "december": {
+          "temp_range": "3 °c°C",
+          "description": "Warm weather",
+          "clothing": "Light layers, cotton clothing"
+        }
+      },
+      "source": "Wikipedia"
+    }
+  },
+  "istanbul_turkey": {
+    "timestamp": "2025-09-21T13:05:10.224831",
+    "data": {
+      "name": "Istanbul",
+      "region": "Istanbul, Turkey",
+      "climate_type": "Temperate",
+      "seasonal_weather": {
+        "january": {
+          "temp_range": "0-10°C",
+          "description": "Cold temperate",
+          "clothing": "Heavy coat, warm layers, warm hat"
+        },
+        "february": {
+          "temp_range": "0-10°C",
+          "description": "Cold temperate",
+          "clothing": "Heavy coat, warm layers, warm hat"
+        },
+        "march": {
+          "temp_range": "10-20°C",
+          "description": "Mild temperate",
+          "clothing": "Light jacket, long sleeves, layers"
+        },
+        "april": {
+          "temp_range": "10-20°C",
+          "description": "Mild temperate",
+          "clothing": "Light jacket, long sleeves, layers"
+        },
+        "may": {
+          "temp_range": "10-20°C",
+          "description": "Mild temperate",
+          "clothing": "Light jacket, long sleeves, layers"
+        },
+        "june": {
+          "temp_range": "17-27°C",
+          "description": "Warm temperate",
+          "clothing": "Light layers, cotton clothing"
+        },
+        "july": {
+          "temp_range": "17-27°C",
+          "description": "Warm temperate",
+          "clothing": "Light layers, cotton clothing"
+        },
+        "august": {
+          "temp_range": "17-27°C",
+          "description": "Warm temperate",
+          "clothing": "Light layers, cotton clothing"
+        },
+        "september": {
+          "temp_range": "7-17°C",
+          "description": "Cool temperate",
+          "clothing": "Warm jacket, layers, long sleeves"
+        },
+        "october": {
+          "temp_range": "7-17°C",
+          "description": "Cool temperate",
+          "clothing": "Warm jacket, layers, long sleeves"
+        },
+        "november": {
+          "temp_range": "7-17°C",
+          "description": "Cool temperate",
+          "clothing": "Warm jacket, layers, long sleeves"
+        },
+        "december": {
+          "temp_range": "0-10°C",
+          "description": "Cold temperate",
+          "clothing": "Heavy coat, warm layers, warm hat"
+        }
+      },
+      "source": "Wikipedia"
+    }
   }
 }

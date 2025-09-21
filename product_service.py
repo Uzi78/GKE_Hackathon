@@ -1,4 +1,4 @@
-# product_service.py
+# product_service.py - Updated to use Product Server API
 import requests
 import grpc
 from typing import List, Dict, Optional
@@ -7,13 +7,27 @@ import logging
 
 class ProductService:
     def __init__(self, catalog_service_url: str, use_grpc: bool = False):
-        self.catalog_service_url = catalog_service_url
+        self.catalog_service_url = catalog_service_url.rstrip('/')  # Remove trailing slash
         self.use_grpc = use_grpc
         self.logger = logging.getLogger(__name__)
         
+        # Test connection on initialization
+        self._test_connection()
+        
+    def _test_connection(self):
+        """Test connection to product server on initialization"""
+        try:
+            response = requests.get(f"{self.catalog_service_url}/health", timeout=5)
+            if response.status_code == 200:
+                self.logger.info(f"Successfully connected to product catalog at {self.catalog_service_url}")
+            else:
+                self.logger.warning(f"Product catalog responded with status {response.status_code}")
+        except Exception as e:
+            self.logger.error(f"Failed to connect to product catalog: {e}")
+    
     def get_products(self, category: str = None, search_query: str = None) -> List[Dict]:
         """
-        Fetch products from Online Boutique catalog
+        Fetch products from Enhanced Product Catalog Server
         """
         try:
             if self.use_grpc:
@@ -23,29 +37,35 @@ class ProductService:
                 
         except Exception as e:
             self.logger.error(f"Product catalog error: {e}")
-            return self._get_mock_products(category)
+            # Only fall back to minimal mock data if server is completely unavailable
+            return self._get_emergency_fallback_products(category)
     
     def _get_products_rest(self, category: str = None, search_query: str = None) -> List[Dict]:
-        """REST API approach"""
+        """REST API approach - Updated to use enhanced server response"""
         try:
             url = f"{self.catalog_service_url}/products"
+            params = {}
             
-            response = requests.get(url, timeout=10)
+            if category:
+                params['category'] = category
+            if search_query:
+                params['search'] = search_query
+            
+            # Add simple flag to get just products array instead of metadata wrapper
+            params['simple'] = 'true'
+            
+            self.logger.info(f"Fetching products from {url} with params: {params}")
+            
+            response = requests.get(url, params=params, timeout=10)
             response.raise_for_status()
             
             products = response.json()
             
-            # Filter by category if specified
-            if category:
-                products = [p for p in products if category.lower() in [cat.lower() for cat in p.get('categories', [])]]
+            # Handle both simple array response and metadata wrapper
+            if isinstance(products, dict) and 'products' in products:
+                products = products['products']
             
-            # Filter by search query if specified
-            if search_query:
-                search_lower = search_query.lower()
-                products = [p for p in products 
-                          if search_lower in p.get('name', '').lower() 
-                          or search_lower in p.get('description', '').lower()]
-            
+            self.logger.info(f"Retrieved {len(products)} products from server")
             return products
             
         except Exception as e:
@@ -53,157 +73,99 @@ class ProductService:
             raise
     
     def _get_products_grpc(self, category: str = None, search_query: str = None) -> List[Dict]:
-        """gRPC approach (if needed)"""
+        """gRPC approach - fallback to REST for now"""
         try:
-            # For now, fallback to REST
+            # For now, fallback to REST - can implement gRPC later if needed
             return self._get_products_rest(category, search_query)
             
         except Exception as e:
             self.logger.error(f"gRPC error: {e}")
             raise
     
-    def _get_mock_products(self, category: str = None) -> List[Dict]:
-        """Fallback mock products"""
-        mock_products = [
+    def _get_emergency_fallback_products(self, category: str = None) -> List[Dict]:
+        """Minimal emergency fallback when server is completely unavailable"""
+        self.logger.warning("Using emergency fallback products - server unavailable")
+        
+        emergency_products = [
             {
-                'id': 'OLJCESPC7Z',
-                'name': 'Sunglasses',
-                'description': 'Add a modern touch to your outfits with these sleek aviator sunglasses.',
-                'picture': '/static/img/products/sunglasses.jpg',
-                'priceUsd': {'currency_code': 'USD', 'units': 19, 'nanos': 990000000},
-                'categories': ['accessories', 'summer', 'hot']
+                'id': 'FALLBACK_001',
+                'name': 'Basic T-Shirt',
+                'description': 'Simple cotton t-shirt (fallback item - server unavailable)',
+                'picture': '/static/img/products/fallback-tshirt.jpg',
+                'priceUsd': {'currency_code': 'USD', 'units': 25, 'nanos': 0},
+                'categories': ['clothing', 'casual', 'fallback']
             },
             {
-                'id': '66VCHSJNUP',
-                'name': 'Tank Top',
-                'description': 'Perfectly cropped cotton tank, with a scooped neckline.',
-                'picture': '/static/img/products/tank-top.jpg',
-                'priceUsd': {'currency_code': 'USD', 'units': 18, 'nanos': 990000000},
-                'categories': ['clothing', 'tops', 'summer', 'hot']
+                'id': 'FALLBACK_002',
+                'name': 'Universal Jacket',
+                'description': 'All-weather jacket (fallback item - server unavailable)',
+                'picture': '/static/img/products/fallback-jacket.jpg',
+                'priceUsd': {'currency_code': 'USD', 'units': 89, 'nanos': 0},
+                'categories': ['clothing', 'outerwear', 'all-weather', 'fallback']
             },
             {
-                'id': '1YMWWN1N4O',
-                'name': 'Watch',
-                'description': 'This gold-tone stainless steel watch will work with most of your outfits.',
-                'picture': '/static/img/products/watch.jpg',
-                'priceUsd': {'currency_code': 'USD', 'units': 109, 'nanos': 990000000},
-                'categories': ['accessories', 'all-weather']
-            },
-            {
-                'id': 'L9ECAV7KIM',
-                'name': 'Loafers',
-                'description': 'A neat addition to your summer wardrobe.',
-                'picture': '/static/img/products/loafers.jpg',
-                'priceUsd': {'currency_code': 'USD', 'units': 89, 'nanos': 990000000},
-                'categories': ['footwear', 'mild', 'summer']
-            },
-            {
-                'id': '2ZYFJ3GM2N',
-                'name': 'Hairdryer',
-                'description': "This lightweight hairdryer has 3 heat and speed settings. It's perfect for travel.",
-                'picture': '/static/img/products/hairdryer.jpg',
-                'priceUsd': {'currency_code': 'USD', 'units': 24, 'nanos': 990000000},
-                'categories': ['beauty', 'home', 'all-weather']
-            },
-            {
-                'id': '0PUK6V6EV0',
-                'name': 'Candle Holder',
-                'description': 'This small but intricate candle holder is an excellent gift.',
-                'picture': '/static/img/products/candle-holder.jpg',
-                'priceUsd': {'currency_code': 'USD', 'units': 18, 'nanos': 990000000},
-                'categories': ['decor', 'home', 'all-weather']
-            },
-            {
-                'id': 'LS4PSXUNUM',
-                'name': 'Salt & Pepper Shakers',
-                'description': 'Add some flavor to your kitchen.',
-                'picture': '/static/img/products/salt-and-pepper-shakers.jpg',
-                'priceUsd': {'currency_code': 'USD', 'units': 18, 'nanos': 490000000},
-                'categories': ['kitchen', 'all-weather']
-            },
-            {
-                'id': '9SIQT8TOJO',
-                'name': 'Bamboo Glass Jar',
-                'description': 'This bamboo glass jar can hold 57 oz (1.7 l) and is perfect for any kitchen.',
-                'picture': '/static/img/products/bamboo-glass-jar.jpg',
-                'priceUsd': {'currency_code': 'USD', 'units': 5, 'nanos': 490000000},
-                'categories': ['kitchen', 'all-weather']
-            },
-            {
-                'id': '6E92ZMYYFZ',
-                'name': 'Mug',
-                'description': 'A simple mug with a mustard interior.',
-                'picture': '/static/img/products/mug.jpg',
-                'priceUsd': {'currency_code': 'USD', 'units': 8, 'nanos': 990000000},
-                'categories': ['kitchen', 'all-weather']
-            },
-            # Weather-appropriate items
-            {
-                'id': 'JKTSNW123',
-                'name': 'Winter Jacket',
-                'description': 'A heavy-duty insulated jacket to keep you warm during cold winters.',
-                'picture': '/static/img/products/winter-jacket.jpg',
-                'priceUsd': {'currency_code': 'USD', 'units': 149, 'nanos': 990000000},
-                'categories': ['clothing', 'outerwear', 'winter', 'cold']
-            },
-            {
-                'id': 'HDY1234',
-                'name': 'Hoodie',
-                'description': 'A soft cotton hoodie, perfect for layering in cool weather.',
-                'picture': '/static/img/products/hoodie.jpg',
-                'priceUsd': {'currency_code': 'USD', 'units': 49, 'nanos': 990000000},
-                'categories': ['clothing', 'tops', 'mild', 'cold']
-            },
-            {
-                'id': 'HDY9212',
-                'name': 'Hoodie_1',
-                'description': 'A soft cotton hoodie, perfect for layering in cool weather.',
-                'picture': '/static/img/products/hoodie.jpg',
-                'priceUsd': {'currency_code': 'USD', 'units': 49, 'nanos': 990000000},
-                'categories': ['clothing', 'tops', 'mild', 'cold']
-            },
-            {
-                'id': 'SWTR567',
-                'name': 'Wool Sweater',
-                'description': 'Stay cozy with this knitted wool sweater.',
-                'picture': '/static/img/products/sweater.jpg',
-                'priceUsd': {'currency_code': 'USD', 'units': 59, 'nanos': 990000000},
-                'categories': ['clothing', 'cold']
-            },
-            {
-                'id': 'RNB123',
-                'name': 'Umbrella',
-                'description': 'A compact waterproof umbrella for rainy days.',
-                'picture': '/static/img/products/umbrella.jpg',
-                'priceUsd': {'currency_code': 'USD', 'units': 15, 'nanos': 990000000},
-                'categories': ['accessories', 'rain', 'all-weather']
-            },
-            {
-                'id': 'TSHRT888',
-                'name': 'T-Shirt',
-                'description': 'Classic cotton t-shirt, lightweight and breathable.',
-                'picture': '/static/img/products/t-shirt.jpg',
-                'priceUsd': {'currency_code': 'USD', 'units': 20, 'nanos': 990000000},
-                'categories': ['clothing', 'summer', 'hot']
-            },
-            {
-                'id': 'SHRTS555',
-                'name': 'Shorts',
-                'description': 'Casual shorts, perfect for hot days and vacations.',
-                'picture': '/static/img/products/shorts.jpg',
-                'priceUsd': {'currency_code': 'USD', 'units': 25, 'nanos': 990000000},
-                'categories': ['clothing', 'summer', 'hot']
+                'id': 'FALLBACK_003',
+                'name': 'Travel Accessory',
+                'description': 'Basic travel accessory (fallback item - server unavailable)',
+                'picture': '/static/img/products/fallback-accessory.jpg',
+                'priceUsd': {'currency_code': 'USD', 'units': 35, 'nanos': 0},
+                'categories': ['accessories', 'travel', 'fallback']
             }
         ]
         
-        # Fixed filtering logic
+        # Add price_usd for backward compatibility
+        for product in emergency_products:
+            product['price_usd'] = product['priceUsd']
+        
+        # Filter by category if specified
         if category:
             category_lower = category.lower()
-            mock_products = [p for p in mock_products 
-                           if any(category_lower in cat.lower() for cat in p.get('categories', []))]
+            emergency_products = [p for p in emergency_products 
+                                if any(category_lower in cat.lower() for cat in p.get('categories', []))]
+        
+        return emergency_products
+
+    def get_products_with_filters(self, category: str = None, climate: str = None, 
+                                cultural: str = None, exclude_inappropriate: bool = False,
+                                price_min: float = None, price_max: float = None) -> List[Dict]:
+        """
+        Get products using enhanced server filtering capabilities
+        """
+        try:
+            url = f"{self.catalog_service_url}/products"
+            params = {'simple': 'true'}  # Get simple array response
             
-        self.logger.info(f"Returning {len(mock_products)} mock products for category: {category}")
-        return mock_products
+            if category:
+                params['category'] = category
+            if climate:
+                params['climate'] = climate
+            if cultural:
+                params['cultural'] = cultural
+            if exclude_inappropriate:
+                params['exclude_inappropriate'] = 'true'
+            if price_min is not None:
+                params['price_min'] = price_min
+            if price_max is not None:
+                params['price_max'] = price_max
+            
+            self.logger.info(f"Fetching filtered products with params: {params}")
+            
+            response = requests.get(url, params=params, timeout=10)
+            response.raise_for_status()
+            
+            products = response.json()
+            
+            # Handle both simple array response and metadata wrapper
+            if isinstance(products, dict) and 'products' in products:
+                products = products['products']
+            
+            self.logger.info(f"Retrieved {len(products)} filtered products")
+            return products
+            
+        except Exception as e:
+            self.logger.error(f"Error getting filtered products: {e}")
+            # Fall back to basic get_products
+            return self.get_products(category=category)
 
     def filter_products_by_weather(self, products: List[Dict], weather_data: Dict) -> List[Dict]:
         """Filter products based on weather conditions"""
@@ -280,6 +242,17 @@ class ProductService:
     def filter_products_by_regional_climate(self, products: List[Dict], country: str, city: str = None, month: str = None) -> List[Dict]:
         """Filter products based on regional climate data from cultural database"""
         try:
+            # Use enhanced server climate filtering if available
+            climate_keywords = self._get_climate_keywords_for_region(country, city, month)
+            
+            if climate_keywords:
+                # Try to use server-side climate filtering
+                climate_filtered = self.get_products_with_filters(climate=climate_keywords.get('climate_type'))
+                if climate_filtered:
+                    self.logger.info(f"Used server-side climate filtering for {city}, {country}")
+                    return climate_filtered[:10]
+            
+            # Fall back to local filtering
             from cultural_data import CulturalDataManager
             cultural_manager = CulturalDataManager()
             
@@ -311,6 +284,50 @@ class ProductService:
         except Exception as e:
             self.logger.error(f"Error filtering by regional climate: {e}")
             return products[:10]
+    
+    def _get_climate_keywords_for_region(self, country: str, city: str = None, month: str = None) -> Dict[str, str]:
+        """Get climate keywords for server-side filtering based on region"""
+        # Simple mapping - could be enhanced with more sophisticated logic
+        climate_mapping = {
+            'pakistan': {
+                'karachi': {'summer': 'hot', 'winter': 'mild'},
+                'lahore': {'summer': 'hot', 'winter': 'cold'},
+                'skardu': {'summer': 'mild', 'winter': 'cold'},
+                'default': {'summer': 'hot', 'winter': 'mild'}
+            },
+            'japan': {
+                'tokyo': {'summer': 'hot', 'winter': 'cold'},
+                'default': {'summer': 'mild', 'winter': 'cold'}
+            },
+            'dubai': {
+                'default': {'summer': 'hot', 'winter': 'mild'}
+            },
+            'turkey': {
+                'istanbul': {'summer': 'hot', 'winter': 'mild'},
+                'default': {'summer': 'hot', 'winter': 'mild'}
+            }
+        }
+        
+        country_key = country.lower()
+        if country_key in climate_mapping:
+            country_data = climate_mapping[country_key]
+            city_key = city.lower() if city else 'default'
+            city_data = country_data.get(city_key, country_data.get('default', {}))
+            
+            # Determine season from month
+            if month:
+                month_lower = month.lower()
+                if month_lower in ['december', 'january', 'february']:
+                    season = 'winter'
+                elif month_lower in ['june', 'july', 'august']:
+                    season = 'summer'
+                else:
+                    season = 'mild'
+                
+                climate_type = city_data.get(season, 'mild')
+                return {'climate_type': climate_type, 'season': season}
+        
+        return {}
     
     def _extract_average_temp(self, temp_range: str) -> float:
         """Extract average temperature from a range string like '15-25°C'"""
@@ -393,7 +410,39 @@ class ProductService:
     def get_products_for_destination(self, destination: str, weather_data: Dict = None, category: str = None) -> List[Dict]:
         """Get products specifically filtered for a destination and weather"""
         try:
-            # Get base products
+            # Try to use enhanced server filtering for destinations
+            cultural_filter = None
+            climate_filter = None
+            
+            # Map destinations to cultural filters
+            destination_lower = destination.lower()
+            if any(place in destination_lower for place in ['pakistan', 'saudi', 'iran', 'dubai']):
+                cultural_filter = 'conservative'
+            elif any(place in destination_lower for place in ['japan', 'korea']):
+                cultural_filter = 'traditional'
+            
+            # Map to climate filters based on weather data
+            if weather_data and weather_data.get('forecasts'):
+                avg_temp = sum(f.get('temperature', 20) for f in weather_data['forecasts']) / len(weather_data['forecasts'])
+                if avg_temp > 25:
+                    climate_filter = 'hot'
+                elif avg_temp < 10:
+                    climate_filter = 'cold'
+                else:
+                    climate_filter = 'mild'
+            
+            # Use enhanced server filtering
+            if cultural_filter or climate_filter:
+                filtered_products = self.get_products_with_filters(
+                    category=category,
+                    climate=climate_filter,
+                    cultural=cultural_filter,
+                    exclude_inappropriate=cultural_filter == 'conservative'
+                )
+                if filtered_products:
+                    return filtered_products
+            
+            # Fall back to basic products with weather filtering
             all_products = self.get_products(category=category)
             
             # Apply weather filtering if weather data is available
@@ -407,7 +456,7 @@ class ProductService:
             
         except Exception as e:
             self.logger.error(f"Error getting products for destination {destination}: {e}")
-            return self._get_mock_products()[:5]
+            return self.get_products(category=category)[:5]
     
     def calculate_total_price(self, product_ids: List[str]) -> str:
         """
@@ -415,9 +464,20 @@ class ProductService:
         """
         try:
             products = self.get_products()
-            total_price = sum(product.get('priceUsd', {}).get('units', 0) for product in products if product.get('id') in product_ids)
+            total_units = 0
+            total_nanos = 0
             
-            return f"${total_price:.2f}"
+            for product in products:
+                if product.get('id') in product_ids:
+                    price_usd = product.get('priceUsd', {})
+                    total_units += price_usd.get('units', 0)
+                    total_nanos += price_usd.get('nanos', 0)
+            
+            # Convert nanos to dollars and add to units
+            total_dollars = total_units + (total_nanos / 1_000_000_000)
+            
+            return f"${total_dollars:.2f}"
+            
         except Exception as e:
             self.logger.error(f"Error calculating total price: {e}")
             return "$0.00"
@@ -427,12 +487,60 @@ class ProductService:
         """
         Get products that are culturally appropriate for the destination and time
         """
-        products = self.get_products(category=category)
+        try:
+            # Use enhanced server filtering for cultural relevance
+            cultural_filter = self._determine_cultural_filter(destination, cultural_context)
+            exclude_inappropriate = cultural_filter == 'conservative'
+            
+            # Get products using server-side filtering
+            filtered_products = self.get_products_with_filters(
+                category=category,
+                cultural=cultural_filter,
+                exclude_inappropriate=exclude_inappropriate
+            )
+            
+            if filtered_products:
+                # Add cultural relevance scores
+                for product in filtered_products:
+                    product["cultural_score"] = self._calculate_cultural_relevance_score(
+                        product, cultural_context, destination, month
+                    )
+                
+                # Sort by cultural relevance
+                filtered_products.sort(key=lambda x: x.get("cultural_score", 0), reverse=True)
+                
+                return filtered_products[:8]  # Return top 8 culturally relevant products
+            
+            # Fall back to basic filtering if server filtering fails
+            products = self.get_products(category=category)
+            return self._apply_cultural_filtering_locally(products, cultural_context, destination, month)
+            
+        except Exception as e:
+            self.logger.error(f"Error getting culturally relevant products: {e}")
+            return self.get_products(category=category)[:8]
+    
+    def _determine_cultural_filter(self, destination: str, cultural_context: Dict = None) -> str:
+        """Determine appropriate cultural filter based on destination"""
+        if not destination:
+            return None
+            
+        destination_lower = destination.lower()
         
-        if not cultural_context or not destination:
-            return products
-        
-        # Enhanced filtering based on cultural context
+        # Conservative destinations
+        if any(place in destination_lower for place in ['pakistan', 'saudi', 'iran', 'afghanistan']):
+            return 'conservative'
+        elif any(place in destination_lower for place in ['dubai', 'turkey', 'malaysia']):
+            return 'modest'
+        elif any(place in destination_lower for place in ['japan', 'korea', 'thailand']):
+            return 'traditional'
+        elif any(place in destination_lower for place in ['india', 'nepal', 'tibet']):
+            return 'traditional'
+        else:
+            return 'modest'  # Default to modest for unknown destinations
+    
+    def _apply_cultural_filtering_locally(self, products: List[Dict], cultural_context: Dict, 
+                                        destination: str, month: str = None) -> List[Dict]:
+        """Apply cultural filtering locally when server filtering is not available"""
         filtered_products = []
         
         for product in products:
@@ -445,86 +553,63 @@ class ProductService:
             
             if score > 0.3:  # Only include products with decent cultural relevance
                 product_copy = product.copy()
-                product_copy["cultural_relevance"] = score
+                product_copy["cultural_score"] = score
                 filtered_products.append(product_copy)
         
         # Sort by cultural relevance
-        filtered_products.sort(key=lambda x: x.get("cultural_relevance", 0), reverse=True)
+        filtered_products.sort(key=lambda x: x.get("cultural_score", 0), reverse=True)
         
-        return filtered_products[:8]  # Return top 8 culturally relevant products
+        return filtered_products[:8]
     
     def _calculate_cultural_relevance_score(self, product: Dict, cultural_context: Dict, 
                                           destination: str, month: str = None) -> float:
         """
         Calculate how culturally relevant a product is for the given context
-        Uses seasonal information from Wikipedia instead of weather API
         """
         score = 0.5  # Base score
         
         product_name = product.get("name", "").lower()
         categories = [cat.lower() for cat in product.get("categories", [])]
         
-        # Check clothing norms
-        clothing_norms = cultural_context.get("clothing_norms", {})
+        # Check for inappropriate items first
+        if any('inappropriate' in cat for cat in categories):
+            return 0.0  # Immediately exclude inappropriate items
         
-        # Religious sites consideration
-        if clothing_norms.get("religious_sites"):
-            if any(word in product_name for word in ["modest", "long", "cover", "scarf"]):
-                score += 0.3
+        # Boost for culturally appropriate categories
+        if any(cat in categories for cat in ['modest', 'conservative', 'traditional']):
+            score += 0.3
         
-        # Business attire
-        if clothing_norms.get("business"):
-            if any(word in product_name for word in ["formal", "suit", "blazer", "dress"]):
-                score += 0.2
-        
-        # Casual wear
-        if clothing_norms.get("casual"):
-            if any(word in product_name for word in ["casual", "comfortable", "jeans", "t-shirt"]):
-                score += 0.1
-        
-        # Seasonal weather consideration (from Wikipedia)
-        seasonal_weather = cultural_context.get("seasonal_weather", {})
-        if month and seasonal_weather:
-            # Map month to season
-            month_lower = month.lower()
-            if month_lower in ['december', 'january', 'february']:
-                season = 'winter'
-            elif month_lower in ['march', 'april', 'may']:
-                season = 'spring'
-            elif month_lower in ['june', 'july', 'august']:
-                season = 'summer'
-            else:  # September, October, November
-                season = 'autumn'
+        # Check clothing norms if available
+        if cultural_context and cultural_context.get("clothing_norms"):
+            clothing_norms = cultural_context["clothing_norms"]
             
-            season_info = seasonal_weather.get(season, "").lower()
+            # Religious sites consideration
+            if clothing_norms.get("religious_sites"):
+                if any(word in product_name for word in ["modest", "long", "cover", "scarf"]):
+                    score += 0.3
             
-            # Adjust score based on seasonal recommendations
-            if season == 'winter' and any(word in season_info for word in ['cold', 'snow', 'freezing']):
-                if any(word in product_name for word in ['coat', 'jacket', 'warm', 'wool']):
-                    score += 0.4
-            elif season == 'summer' and any(word in season_info for word in ['hot', 'warm', 'tropical']):
-                if any(word in product_name for word in ['short', 'tank', 'light', 'cotton']):
-                    score += 0.4
+            # Business attire
+            if clothing_norms.get("business"):
+                if any(word in product_name for word in ["formal", "suit", "blazer", "dress"]):
+                    score += 0.2
+            
+            # Casual wear
+            if clothing_norms.get("casual"):
+                if any(word in product_name for word in ["casual", "comfortable", "jeans", "t-shirt"]):
+                    score += 0.1
         
         # Festival-specific relevance
-        festivals = cultural_context.get("festivals", [])
-        for festival in festivals:
-            festival_name = festival.get("name", "").lower()
-            shopping_relevance = festival.get("shopping_relevance", "").lower()
-            
-            # Check if product matches festival shopping suggestions
-            if any(keyword in shopping_relevance for keyword in ["clothing", "attire", "wear"]):
-                if "traditional" in shopping_relevance and "traditional" in product_name:
-                    score += 0.4
-                elif "festive" in shopping_relevance and any(word in product_name for word in ["colorful", "bright", "party"]):
-                    score += 0.3
-        
-        # Taboo checking (reduce score for inappropriate items)
-        taboos = cultural_context.get("taboos", [])
-        for taboo in taboos:
-            taboo_lower = taboo.lower()
-            if (taboo_lower in product_name or 
-                any(taboo_lower in cat for cat in categories)):
-                score -= 0.5
+        if cultural_context and cultural_context.get("festivals"):
+            festivals = cultural_context["festivals"]
+            for festival in festivals:
+                festival_name = festival.get("name", "").lower()
+                shopping_relevance = festival.get("shopping_relevance", "").lower()
+                
+                # Check if product matches festival shopping suggestions
+                if any(keyword in shopping_relevance for keyword in ["clothing", "attire", "wear"]):
+                    if "traditional" in shopping_relevance and "traditional" in product_name:
+                        score += 0.4
+                    elif "festive" in shopping_relevance and any(word in product_name for word in ["colorful", "bright", "party"]):
+                        score += 0.3
         
         return max(0.0, min(1.0, score))
