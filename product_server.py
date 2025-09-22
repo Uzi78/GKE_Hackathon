@@ -24,7 +24,7 @@ ENHANCED_PRODUCT_CATALOG = [
         'id': 'CLT_WJKT_001',
         'name': 'Heavy Winter Parka',
         'description': 'Arctic-grade insulated parka with fur-lined hood, waterproof and windproof. Perfect for extreme cold climates.',
-        'picture': '/static/img/products/winter-parka.jpg',
+        'picture': 'https://images.unsplash.com/photo-1578662996442-48f60103fc96?w=300&h=300&fit=crop&crop=center',
         'priceUsd': {'currency_code': 'USD', 'units': 249, 'nanos': 990000000},
         'categories': ['clothing', 'outerwear', 'winter', 'cold', 'extreme-weather', 'unisex']
     },
@@ -32,7 +32,7 @@ ENHANCED_PRODUCT_CATALOG = [
         'id': 'CLT_WOOL_002',
         'name': 'Merino Wool Thermal Set',
         'description': 'Premium base layer thermal underwear set. Moisture-wicking and odor-resistant.',
-        'picture': '/static/img/products/thermal-set.jpg',
+        'picture': 'https://images.unsplash.com/photo-1489987707025-afc232f7ea0f?w=300&h=300&fit=crop&crop=center',
         'priceUsd': {'currency_code': 'USD', 'units': 89, 'nanos': 990000000},
         'categories': ['clothing', 'underwear', 'thermal', 'cold', 'winter', 'unisex', 'hiking']
     },
@@ -40,7 +40,7 @@ ENHANCED_PRODUCT_CATALOG = [
         'id': 'CLT_DOWN_003',
         'name': 'Down Jacket',
         'description': 'Lightweight packable down jacket. Compressible and perfect for layering.',
-        'picture': '/static/img/products/down-jacket.jpg',
+        'picture': 'https://images.unsplash.com/photo-1544966503-7cc5ac882d5e?w=300&h=300&fit=crop&crop=center',
         'priceUsd': {'currency_code': 'USD', 'units': 179, 'nanos': 990000000},
         'categories': ['clothing', 'outerwear', 'winter', 'mild', 'travel', 'packable', 'unisex']
     },
@@ -50,7 +50,7 @@ ENHANCED_PRODUCT_CATALOG = [
         'id': 'CLT_LINEN_004',
         'name': 'Linen Shirt',
         'description': 'Breathable long-sleeve linen shirt. Perfect for hot climates while maintaining coverage.',
-        'picture': '/static/img/products/linen-shirt.jpg',
+        'picture': 'https://images.unsplash.com/photo-1596755094514-f87e34085b2c?w=300&h=300&fit=crop&crop=center',
         'priceUsd': {'currency_code': 'USD', 'units': 69, 'nanos': 990000000},
         'categories': ['clothing', 'shirts', 'summer', 'hot', 'breathable', 'modest', 'business-casual', 'unisex']
     },
@@ -58,7 +58,7 @@ ENHANCED_PRODUCT_CATALOG = [
         'id': 'CLT_SUN_005',
         'name': 'UV Protection Rashguard',
         'description': 'Long-sleeve rashguard with UPF 50+ sun protection. Suitable for conservative beach destinations.',
-        'picture': '/static/img/products/rashguard.jpg',
+        'picture': 'https://images.unsplash.com/photo-1571019613454-1cb2f99b2d8b?w=300&h=300&fit=crop&crop=center',
         'priceUsd': {'currency_code': 'USD', 'units': 45, 'nanos': 990000000},
         'categories': ['clothing', 'swimwear', 'summer', 'hot', 'modest', 'beach', 'sun-protection', 'unisex']
     },
@@ -66,7 +66,7 @@ ENHANCED_PRODUCT_CATALOG = [
         'id': 'CLT_COTTON_006',
         'name': 'Organic Cotton T-Shirt',
         'description': 'Soft, breathable organic cotton t-shirt. Classic fit suitable for all occasions.',
-        'picture': '/static/img/products/cotton-tee.jpg',
+        'picture': 'https://images.unsplash.com/photo-1521572163474-6864f9cf17ab?w=300&h=300&fit=crop&crop=center',
         'priceUsd': {'currency_code': 'USD', 'units': 29, 'nanos': 990000000},
         'categories': ['clothing', 'casual', 'summer', 'hot', 'mild', 'breathable', 'unisex', 'sustainable']
     },
@@ -76,7 +76,7 @@ ENHANCED_PRODUCT_CATALOG = [
         'id': 'CLT_TRAD_007',
         'name': 'Embroidered Kurta',
         'description': 'Traditional Pakistani/Indian kurta with intricate embroidery. Perfect for cultural events.',
-        'picture': '/static/img/products/kurta.jpg',
+        'picture': 'https://images.unsplash.com/photo-1594633312681-425c7b97ccd1?w=300&h=300&fit=crop&crop=center',
         'priceUsd': {'currency_code': 'USD', 'units': 89, 'nanos': 990000000},
         'categories': ['clothing', 'traditional', 'cultural', 'formal', 'pakistan', 'india', 'festival', 'unisex']
     },
@@ -84,7 +84,7 @@ ENHANCED_PRODUCT_CATALOG = [
         'id': 'CLT_KIMONO_008',
         'name': 'Casual Kimono',
         'description': 'Lightweight kimono-style jacket. Respectful modern interpretation of traditional Japanese wear.',
-        'picture': '/static/img/products/kimono-jacket.jpg',
+        'picture': 'https://images.unsplash.com/photo-1556905055-8f358a7a47b2?w=300&h=300&fit=crop&crop=center',
         'priceUsd': {'currency_code': 'USD', 'units': 125, 'nanos': 990000000},
         'categories': ['clothing', 'traditional', 'cultural', 'japan', 'casual', 'layering', 'respectful']
     },
@@ -92,7 +92,7 @@ ENHANCED_PRODUCT_CATALOG = [
         'id': 'CLT_ABAYA_009',
         'name': 'Modern Abaya',
         'description': 'Contemporary abaya with subtle embellishments. Elegant modest wear for formal occasions.',
-        'picture': '/static/img/products/abaya.jpg',
+        'picture': 'https://images.unsplash.com/photo-1594633312681-425c7b97ccd1?w=300&h=300&fit=crop&crop=center',
         'priceUsd': {'currency_code': 'USD', 'units': 159, 'nanos': 990000000},
         'categories': ['clothing', 'traditional', 'modest', 'formal', 'middle-east', 'dubai', 'conservative', 'women']
     },
@@ -102,7 +102,7 @@ ENHANCED_PRODUCT_CATALOG = [
         'id': 'CLT_SUIT_010',
         'name': 'Business Suit',
         'description': 'Professional wool blend suit. Perfect for international business meetings.',
-        'picture': '/static/img/products/business-suit.jpg',
+        'picture': 'https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=300&h=300&fit=crop&crop=center',
         'priceUsd': {'currency_code': 'USD', 'units': 399, 'nanos': 990000000},
         'categories': ['clothing', 'formal', 'business', 'professional', 'suit', 'conservative', 'unisex']
     },
@@ -110,7 +110,7 @@ ENHANCED_PRODUCT_CATALOG = [
         'id': 'CLT_BLOUSE_011',
         'name': 'Conservative Blouse',
         'description': 'Long-sleeve blouse with modest neckline. Suitable for conservative business environments.',
-        'picture': '/static/img/products/conservative-blouse.jpg',
+        'picture': 'https://images.unsplash.com/photo-1564257577154-75b5a3f75364?w=300&h=300&fit=crop&crop=center',
         'priceUsd': {'currency_code': 'USD', 'units': 79, 'nanos': 990000000},
         'categories': ['clothing', 'business', 'formal', 'modest', 'conservative', 'professional', 'women']
     },
@@ -120,7 +120,7 @@ ENHANCED_PRODUCT_CATALOG = [
         'id': 'ACC_SCARF_012',
         'name': 'Silk Headscarf',
         'description': 'Elegant silk scarf suitable for religious sites and cultural respect.',
-        'picture': '/static/img/products/silk-scarf.jpg',
+        'picture': 'https://images.unsplash.com/photo-1556905055-8f358a7a47b2?w=300&h=300&fit=crop&crop=center',
         'priceUsd': {'currency_code': 'USD', 'units': 49, 'nanos': 990000000},
         'categories': ['accessories', 'headwear', 'modest', 'religious', 'silk', 'respectful', 'cultural', 'women']
     },
@@ -128,7 +128,7 @@ ENHANCED_PRODUCT_CATALOG = [
         'id': 'ACC_HAT_013',
         'name': 'Wide-Brim Sun Hat',
         'description': 'Stylish sun hat with UPF protection. Essential for desert and tropical climates.',
-        'picture': '/static/img/products/sun-hat.jpg',
+        'picture': 'https://images.unsplash.com/photo-1521369909029-2afed882baee?w=300&h=300&fit=crop&crop=center',
         'priceUsd': {'currency_code': 'USD', 'units': 35, 'nanos': 990000000},
         'categories': ['accessories', 'headwear', 'sun-protection', 'summer', 'hot', 'desert', 'tropical', 'unisex']
     },
@@ -136,7 +136,7 @@ ENHANCED_PRODUCT_CATALOG = [
         'id': 'ACC_BEANIE_014',
         'name': 'Wool Beanie',
         'description': 'Warm knitted beanie for cold weather destinations.',
-        'picture': '/static/img/products/wool-beanie.jpg',
+        'picture': 'https://images.unsplash.com/photo-1578662996442-48f60103fc96?w=300&h=300&fit=crop&crop=center',
         'priceUsd': {'currency_code': 'USD', 'units': 25, 'nanos': 990000000},
         'categories': ['accessories', 'headwear', 'winter', 'cold', 'warm', 'unisex']
     },
@@ -146,7 +146,7 @@ ENHANCED_PRODUCT_CATALOG = [
         'id': 'ACC_PRAYER_015',
         'name': 'Travel Prayer Mat',
         'description': 'Compact, portable prayer mat with built-in compass. Respectful travel essential.',
-        'picture': '/static/img/products/prayer-mat.jpg',
+        'picture': 'https://images.unsplash.com/photo-1609198092458-38a293c7ac4b?w=300&h=300&fit=crop&crop=center',
         'priceUsd': {'currency_code': 'USD', 'units': 39, 'nanos': 990000000},
         'categories': ['accessories', 'religious', 'islamic', 'travel', 'spiritual', 'respectful', 'portable']
     },
@@ -154,7 +154,7 @@ ENHANCED_PRODUCT_CATALOG = [
         'id': 'ACC_MALA_016',
         'name': 'Meditation Mala Beads',
         'description': 'Traditional 108-bead mala for meditation and spiritual practice.',
-        'picture': '/static/img/products/mala-beads.jpg',
+        'picture': 'https://images.unsplash.com/photo-1544966503-7cc5ac882d5e?w=300&h=300&fit=crop&crop=center',
         'priceUsd': {'currency_code': 'USD', 'units': 29, 'nanos': 990000000},
         'categories': ['accessories', 'religious', 'spiritual', 'meditation', 'buddhist', 'hindu', 'cultural']
     },
@@ -164,7 +164,7 @@ ENHANCED_PRODUCT_CATALOG = [
         'id': 'FOOT_BOOTS_017',
         'name': 'Waterproof Hiking Boots',
         'description': 'Durable waterproof boots with ankle support. Perfect for mountain regions.',
-        'picture': '/static/img/products/hiking-boots.jpg',
+        'picture': 'https://images.unsplash.com/photo-1605348532760-6753d2c43329?w=300&h=300&fit=crop&crop=center',
         'priceUsd': {'currency_code': 'USD', 'units': 189, 'nanos': 990000000},
         'categories': ['footwear', 'hiking', 'waterproof', 'cold', 'mountains', 'outdoor', 'durable', 'unisex']
     },
@@ -172,7 +172,7 @@ ENHANCED_PRODUCT_CATALOG = [
         'id': 'FOOT_SANDALS_018',
         'name': 'Modest Walking Sandals',
         'description': 'Comfortable closed-toe sandals suitable for conservative destinations.',
-        'picture': '/static/img/products/modest-sandals.jpg',
+        'picture': 'https://images.unsplash.com/photo-1549298916-b41d501d3772?w=300&h=300&fit=crop&crop=center',
         'priceUsd': {'currency_code': 'USD', 'units': 69, 'nanos': 990000000},
         'categories': ['footwear', 'sandals', 'summer', 'hot', 'modest', 'walking', 'conservative', 'unisex']
     },
@@ -180,7 +180,7 @@ ENHANCED_PRODUCT_CATALOG = [
         'id': 'FOOT_SLIP_019',
         'name': 'Easy-Remove Slip-on Shoes',
         'description': 'Convenient slip-on shoes perfect for cultures where shoes are removed frequently.',
-        'picture': '/static/img/products/slip-on-shoes.jpg',
+        'picture': 'https://images.unsplash.com/photo-1560769629-975ec94e6a86?w=300&h=300&fit=crop&crop=center',
         'priceUsd': {'currency_code': 'USD', 'units': 89, 'nanos': 990000000},
         'categories': ['footwear', 'slip-on', 'convenient', 'cultural', 'respectful', 'asia', 'temples', 'unisex']
     },
@@ -190,7 +190,7 @@ ENHANCED_PRODUCT_CATALOG = [
         'id': 'SWIM_BURKINI_020',
         'name': 'Full-Coverage Burkini',
         'description': 'Modest full-body swimsuit with hijab. Perfect for conservative beach destinations.',
-        'picture': '/static/img/products/burkini.jpg',
+        'picture': 'https://images.unsplash.com/photo-1594633312681-425c7b97ccd1?w=300&h=300&fit=crop&crop=center',
         'priceUsd': {'currency_code': 'USD', 'units': 119, 'nanos': 990000000},
         'categories': ['swimwear', 'modest', 'conservative', 'islamic', 'beach', 'full-coverage', 'women']
     },
@@ -198,7 +198,7 @@ ENHANCED_PRODUCT_CATALOG = [
         'id': 'SWIM_RASH_021',
         'name': 'Long-Sleeve Swim Shirt',
         'description': 'Modest swim shirt with UPF 50+ protection. Suitable for conservative beach areas.',
-        'picture': '/static/img/products/swim-shirt.jpg',
+        'picture': 'https://images.unsplash.com/photo-1571019613454-1cb2f99b2d8b?w=300&h=300&fit=crop&crop=center',
         'priceUsd': {'currency_code': 'USD', 'units': 55, 'nanos': 990000000},
         'categories': ['swimwear', 'modest', 'sun-protection', 'beach', 'conservative', 'unisex']
     },
@@ -206,7 +206,7 @@ ENHANCED_PRODUCT_CATALOG = [
         'id': 'SWIM_COVER_022',
         'name': 'Beach Cover-up Kaftan',
         'description': 'Flowing beach kaftan for modest coverage. Stylish and respectful.',
-        'picture': '/static/img/products/beach-kaftan.jpg',
+        'picture': 'https://images.unsplash.com/photo-1594633312681-425c7b97ccd1?w=300&h=300&fit=crop&crop=center',
         'priceUsd': {'currency_code': 'USD', 'units': 65, 'nanos': 990000000},
         'categories': ['swimwear', 'cover-up', 'modest', 'beach', 'kaftan', 'flowing', 'women']
     },
@@ -216,7 +216,7 @@ ENHANCED_PRODUCT_CATALOG = [
         'id': 'GIFT_TEA_023',
         'name': 'Premium Tea Gift Set',
         'description': 'Curated selection of regional teas with beautiful packaging. Perfect cultural gift.',
-        'picture': '/static/img/products/tea-gift-set.jpg',
+        'picture': 'https://images.unsplash.com/photo-1544787219-7f47ccb76574?w=300&h=300&fit=crop&crop=center',
         'priceUsd': {'currency_code': 'USD', 'units': 45, 'nanos': 990000000},
         'categories': ['gifts', 'tea', 'cultural', 'edible', 'premium', 'traditional', 'hospitality']
     },
@@ -224,7 +224,7 @@ ENHANCED_PRODUCT_CATALOG = [
         'id': 'GIFT_CRAFT_024',
         'name': 'Handcrafted Wooden Box',
         'description': 'Beautifully carved wooden jewelry box. Represents local craftsmanship.',
-        'picture': '/static/img/products/wooden-box.jpg',
+        'picture': 'https://images.unsplash.com/photo-1513475382585-d06e58bcb0e0?w=300&h=300&fit=crop&crop=center',
         'priceUsd': {'currency_code': 'USD', 'units': 79, 'nanos': 990000000},
         'categories': ['gifts', 'handicraft', 'wooden', 'cultural', 'artisan', 'traditional', 'decorative']
     },
@@ -232,7 +232,7 @@ ENHANCED_PRODUCT_CATALOG = [
         'id': 'GIFT_DATES_025',
         'name': 'Premium Date Gift Box',
         'description': 'Luxury Medjool dates in elegant packaging. Traditional Middle Eastern gift.',
-        'picture': '/static/img/products/dates-gift-box.jpg',
+        'picture': 'https://images.unsplash.com/photo-1578662996442-48f60103fc96?w=300&h=300&fit=crop&crop=center',
         'priceUsd': {'currency_code': 'USD', 'units': 35, 'nanos': 990000000},
         'categories': ['gifts', 'food', 'dates', 'middle-east', 'ramadan', 'eid', 'traditional', 'premium']
     },
@@ -240,7 +240,7 @@ ENHANCED_PRODUCT_CATALOG = [
         'id': 'GIFT_SILK_026',
         'name': 'Silk Pocket Square Set',
         'description': 'Set of traditional silk pocket squares. Elegant and culturally appropriate.',
-        'picture': '/static/img/products/silk-squares.jpg',
+        'picture': 'https://images.unsplash.com/photo-1556905055-8f358a7a47b2?w=300&h=300&fit=crop&crop=center',
         'priceUsd': {'currency_code': 'USD', 'units': 89, 'nanos': 990000000},
         'categories': ['gifts', 'accessories', 'silk', 'formal', 'traditional', 'elegant', 'business']
     },
@@ -250,7 +250,7 @@ ENHANCED_PRODUCT_CATALOG = [
         'id': 'ELEC_ADAPTER_027',
         'name': 'Universal Travel Adapter',
         'description': 'All-in-one adapter with USB charging ports. Compatible with 150+ countries.',
-        'picture': '/static/img/products/travel-adapter.jpg',
+        'picture': 'https://images.unsplash.com/photo-1609198092458-38a293c7ac4b?w=300&h=300&fit=crop&crop=center',
         'priceUsd': {'currency_code': 'USD', 'units': 49, 'nanos': 990000000},
         'categories': ['electronics', 'travel', 'adapter', 'universal', 'charging', 'essential', 'portable']
     },
@@ -258,7 +258,7 @@ ENHANCED_PRODUCT_CATALOG = [
         'id': 'ELEC_CAMERA_028',
         'name': 'Compact Travel Camera',
         'description': 'Lightweight camera with excellent low-light performance. Perfect for cultural sites.',
-        'picture': '/static/img/products/travel-camera.jpg',
+        'picture': 'https://images.unsplash.com/photo-1502920917128-1aa500764cbd?w=300&h=300&fit=crop&crop=center',
         'priceUsd': {'currency_code': 'USD', 'units': 299, 'nanos': 990000000},
         'categories': ['electronics', 'camera', 'travel', 'photography', 'compact', 'cultural-sites']
     },
@@ -266,7 +266,7 @@ ENHANCED_PRODUCT_CATALOG = [
         'id': 'ELEC_BANK_029',
         'name': 'Solar Power Bank',
         'description': 'Eco-friendly solar power bank. Essential for desert and remote destinations.',
-        'picture': '/static/img/products/solar-powerbank.jpg',
+        'picture': 'https://images.unsplash.com/photo-1609198092458-38a293c7ac4b?w=300&h=300&fit=crop&crop=center',
         'priceUsd': {'currency_code': 'USD', 'units': 79, 'nanos': 990000000},
         'categories': ['electronics', 'power-bank', 'solar', 'eco-friendly', 'desert', 'remote', 'sustainable']
     },
@@ -276,7 +276,7 @@ ENHANCED_PRODUCT_CATALOG = [
         'id': 'BEAUTY_SUN_030',
         'name': 'High SPF Sunscreen Set',
         'description': 'SPF 50+ sunscreen for face and body. Essential for tropical and desert climates.',
-        'picture': '/static/img/products/sunscreen-set.jpg',
+        'picture': 'https://images.unsplash.com/photo-1556228724-c2eab21e32ef?w=300&h=300&fit=crop&crop=center',
         'priceUsd': {'currency_code': 'USD', 'units': 35, 'nanos': 990000000},
         'categories': ['beauty', 'sunscreen', 'sun-protection', 'tropical', 'desert', 'hot', 'essential']
     },
@@ -284,7 +284,7 @@ ENHANCED_PRODUCT_CATALOG = [
         'id': 'BEAUTY_BALM_031',
         'name': 'Cold Weather Lip Balm',
         'description': 'Heavy-duty lip balm with SPF. Protection against cold, wind, and high altitude.',
-        'picture': '/static/img/products/cold-lip-balm.jpg',
+        'picture': 'https://images.unsplash.com/photo-1556228724-c2eab21e32ef?w=300&h=300&fit=crop&crop=center',
         'priceUsd': {'currency_code': 'USD', 'units': 15, 'nanos': 990000000},
         'categories': ['beauty', 'lip-balm', 'cold', 'winter', 'protection', 'mountain', 'essential']
     },
@@ -292,7 +292,7 @@ ENHANCED_PRODUCT_CATALOG = [
         'id': 'BEAUTY_MIST_032',
         'name': 'Cooling Face Mist',
         'description': 'Refreshing face mist with aloe vera. Perfect for hot, humid climates.',
-        'picture': '/static/img/products/face-mist.jpg',
+        'picture': 'https://images.unsplash.com/photo-1556228724-c2eab21e32ef?w=300&h=300&fit=crop&crop=center',
         'priceUsd': {'currency_code': 'USD', 'units': 25, 'nanos': 990000000},
         'categories': ['beauty', 'face-mist', 'cooling', 'hot', 'humid', 'refreshing', 'travel-size']
     },
@@ -302,7 +302,7 @@ ENHANCED_PRODUCT_CATALOG = [
         'id': 'HOME_LAMP_033',
         'name': 'Moroccan Style Lantern',
         'description': 'Ornate metal lantern inspired by Middle Eastern design. Beautiful cultural decor.',
-        'picture': '/static/img/products/moroccan-lantern.jpg',
+        'picture': 'https://images.unsplash.com/photo-1513475382585-d06e58bcb0e0?w=300&h=300&fit=crop&crop=center',
         'priceUsd': {'currency_code': 'USD', 'units': 89, 'nanos': 990000000},
         'categories': ['home', 'decor', 'lantern', 'moroccan', 'middle-east', 'cultural', 'ornate']
     },
@@ -310,7 +310,7 @@ ENHANCED_PRODUCT_CATALOG = [
         'id': 'HOME_RUG_034',
         'name': 'Traditional Kilim Rug',
         'description': 'Handwoven kilim rug with traditional patterns. Authentic cultural home decor.',
-        'picture': '/static/img/products/kilim-rug.jpg',
+        'picture': 'https://images.unsplash.com/photo-1513475382585-d06e58bcb0e0?w=300&h=300&fit=crop&crop=center',
         'priceUsd': {'currency_code': 'USD', 'units': 199, 'nanos': 990000000},
         'categories': ['home', 'decor', 'rug', 'kilim', 'handwoven', 'traditional', 'cultural', 'authentic']
     },
@@ -318,7 +318,7 @@ ENHANCED_PRODUCT_CATALOG = [
         'id': 'HOME_INCENSE_035',
         'name': 'Sandalwood Incense Set',
         'description': 'Premium sandalwood incense with holder. Perfect for meditation and cultural practices.',
-        'picture': '/static/img/products/incense-set.jpg',
+        'picture': 'https://images.unsplash.com/photo-1544787219-7f47ccb76574?w=300&h=300&fit=crop&crop=center',
         'priceUsd': {'currency_code': 'USD', 'units': 29, 'nanos': 990000000},
         'categories': ['home', 'incense', 'sandalwood', 'meditation', 'spiritual', 'cultural', 'aromatherapy']
     },
@@ -328,7 +328,7 @@ ENHANCED_PRODUCT_CATALOG = [
         'id': 'BAG_PACK_036',
         'name': 'Anti-Theft Travel Backpack',
         'description': 'Security backpack with RFID blocking and hidden zippers. Perfect for crowded markets.',
-        'picture': '/static/img/products/anti-theft-backpack.jpg',
+        'picture': 'https://images.unsplash.com/photo-1553062407-98eeb64c6a62?w=300&h=300&fit=crop&crop=center',
         'priceUsd': {'currency_code': 'USD', 'units': 129, 'nanos': 990000000},
         'categories': ['bags', 'backpack', 'travel', 'security', 'anti-theft', 'markets', 'urban']
     },
@@ -336,7 +336,7 @@ ENHANCED_PRODUCT_CATALOG = [
         'id': 'BAG_MODEST_037',
         'name': 'Modest Shoulder Bag',
         'description': 'Conservative crossbody bag that maintains cultural appropriateness.',
-        'picture': '/static/img/products/modest-bag.jpg',
+        'picture': 'https://images.unsplash.com/photo-1553062407-98eeb64c6a62?w=300&h=300&fit=crop&crop=center',
         'priceUsd': {'currency_code': 'USD', 'units': 69, 'nanos': 990000000},
         'categories': ['bags', 'shoulder-bag', 'crossbody', 'modest', 'conservative', 'cultural', 'women']
     },
@@ -346,7 +346,7 @@ ENHANCED_PRODUCT_CATALOG = [
         'id': 'OUTDOOR_TENT_038',
         'name': 'Desert Camping Tent',
         'description': '4-season tent designed for desert conditions. UV resistant and sand-proof.',
-        'picture': '/static/img/products/desert-tent.jpg',
+        'picture': 'https://images.unsplash.com/photo-1504851149312-7a075b496cc7?w=300&h=300&fit=crop&crop=center',
         'priceUsd': {'currency_code': 'USD', 'units': 349, 'nanos': 990000000},
         'categories': ['outdoor', 'camping', 'tent', 'desert', '4-season', 'uv-resistant', 'adventure']
     },
@@ -354,7 +354,7 @@ ENHANCED_PRODUCT_CATALOG = [
         'id': 'OUTDOOR_YOGA_039',
         'name': 'Travel Yoga Mat',
         'description': 'Foldable yoga mat perfect for hotel rooms and cultural mindfulness practices.',
-        'picture': '/static/img/products/travel-yoga-mat.jpg',
+        'picture': 'https://images.unsplash.com/photo-1544966503-7cc5ac882d5e?w=300&h=300&fit=crop&crop=center',
         'priceUsd': {'currency_code': 'USD', 'units': 45, 'nanos': 990000000},
         'categories': ['outdoor', 'yoga', 'fitness', 'travel', 'foldable', 'mindfulness', 'wellness']
     },
@@ -364,7 +364,7 @@ ENHANCED_PRODUCT_CATALOG = [
         'id': 'BOOK_GUIDE_040',
         'name': 'Cultural Etiquette Guidebook',
         'description': 'Comprehensive guide to cultural customs and etiquette across different countries.',
-        'picture': '/static/img/products/etiquette-guide.jpg',
+        'picture': 'https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=300&h=300&fit=crop&crop=center',
         'priceUsd': {'currency_code': 'USD', 'units': 25, 'nanos': 990000000},
         'categories': ['books', 'cultural', 'etiquette', 'education', 'travel', 'reference', 'respectful']
     },
@@ -372,7 +372,7 @@ ENHANCED_PRODUCT_CATALOG = [
         'id': 'BOOK_PHRASE_041',
         'name': 'Multi-Language Phrase Book',
         'description': 'Essential phrases in 12 languages with cultural context and pronunciation.',
-        'picture': '/static/img/products/phrase-book.jpg',
+        'picture': 'https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=300&h=300&fit=crop&crop=center',
         'priceUsd': {'currency_code': 'USD', 'units': 19, 'nanos': 990000000},
         'categories': ['books', 'language', 'phrases', 'multi-language', 'cultural', 'communication']
     },
@@ -382,7 +382,7 @@ ENHANCED_PRODUCT_CATALOG = [
         'id': 'PROB_BIKINI_042',
         'name': 'String Bikini',
         'description': 'Minimal coverage bikini swimsuit.',
-        'picture': '/static/img/products/string-bikini.jpg',
+        'picture': 'https://images.unsplash.com/photo-1571019613454-1cb2f99b2d8b?w=300&h=300&fit=crop&crop=center',
         'priceUsd': {'currency_code': 'USD', 'units': 45, 'nanos': 990000000},
         'categories': ['swimwear', 'bikini', 'revealing', 'beach', 'minimal', 'inappropriate-conservative']
     },
@@ -390,7 +390,7 @@ ENHANCED_PRODUCT_CATALOG = [
         'id': 'PROB_CROP_043',
         'name': 'Crop Top',
         'description': 'Ultra-short crop top exposing midriff.',
-        'picture': '/static/img/products/crop-top.jpg',
+        'picture': 'https://images.unsplash.com/photo-1521572163474-6864f9cf17ab?w=300&h=300&fit=crop&crop=center',
         'priceUsd': {'currency_code': 'USD', 'units': 25, 'nanos': 990000000},
         'categories': ['clothing', 'tops', 'crop', 'revealing', 'midriff', 'inappropriate-conservative']
     },
@@ -398,7 +398,7 @@ ENHANCED_PRODUCT_CATALOG = [
         'id': 'PROB_ALCOHOL_044',
         'name': 'Wine Gift Set',
         'description': 'Premium wine collection for gifting.',
-        'picture': '/static/img/products/wine-set.jpg',
+        'picture': 'https://images.unsplash.com/photo-1544787219-7f47ccb76574?w=300&h=300&fit=crop&crop=center',
         'priceUsd': {'currency_code': 'USD', 'units': 89, 'nanos': 990000000},
         'categories': ['gifts', 'alcohol', 'wine', 'inappropriate-islamic', 'inappropriate-conservative']
     },
@@ -406,7 +406,7 @@ ENHANCED_PRODUCT_CATALOG = [
         'id': 'PROB_SHORTS_045',
         'name': 'Hot Pants Shorts',
         'description': 'Very short shorts with minimal coverage.',
-        'picture': '/static/img/products/hot-pants.jpg',
+        'picture': 'https://images.unsplash.com/photo-1594633312681-425c7b97ccd1?w=300&h=300&fit=crop&crop=center',
         'priceUsd': {'currency_code': 'USD', 'units': 35, 'nanos': 990000000},
         'categories': ['clothing', 'shorts', 'revealing', 'minimal', 'hot-pants', 'inappropriate-conservative']
     }
