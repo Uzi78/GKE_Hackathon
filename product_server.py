@@ -41,7 +41,7 @@ ENHANCED_PRODUCT_CATALOG = [
         'id': 'CLT_WJKT_001',
         'name': 'Heavy Winter Parka',
         'description': 'Arctic-grade insulated parka with fur-lined hood, waterproof and windproof. Perfect for extreme cold climates.',
-        'picture': "\GKE_Hackathon\Images\Image1.jpeg",
+        'picture': "\\Images\\Image1.jpeg",
         'priceUsd': {'currency_code': 'USD', 'units': 249, 'nanos': 990000000},
         'categories': ['clothing', 'outerwear', 'winter', 'cold', 'extreme-weather', 'unisex']
     },
@@ -49,7 +49,7 @@ ENHANCED_PRODUCT_CATALOG = [
         'id': 'CLT_WOOL_002',
         'name': 'Merino Wool Thermal Set',
         'description': 'Premium base layer thermal underwear set. Moisture-wicking and odor-resistant.',
-        'picture': '\GKE_Hackathon\Images\Image2.jpeg',
+        'picture': '\\Images\\Image2.jpeg',
         'priceUsd': {'currency_code': 'USD', 'units': 89, 'nanos': 990000000},
         'categories': ['clothing', 'underwear', 'thermal', 'cold', 'winter', 'unisex', 'hiking']
     },
