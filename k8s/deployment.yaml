@@ -1,0 +1,32 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: hackathon-app
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: hackathon-app
+  template:
+    metadata:
+      labels:
+        app: hackathon-app
+    spec:
+      containers:
+        - name: hackathon-app
+          image: gcr.io/sincere-etching-472314-g0/hackathon-app:latest
+          ports:
+            - containerPort: 5000
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: hackathon-service
+spec:
+  selector:
+    app: hackathon-app
+  ports:
+    - protocol: TCP
+      port: 80
+      targetPort: 5000
+  type: LoadBalancer
