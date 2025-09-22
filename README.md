@@ -55,6 +55,38 @@ Our AI-powered chatbot revolutionizes travel shopping by providing **culturally-
 * **Filtering Pipeline** - Multi-stage filtering for cultural appropriateness
 * **Fallback Systems** - Graceful degradation when services are unavailable
 
+## Frontend (UI/UX)
+
+Our **frontend** is designed to provide a **simple, intuitive, and engaging shopping experience** for travelers. Built with **Vanilla JavaScript, HTML, and modern CSS**, it ensures smooth interaction with the backend AI services while keeping the interface lightweight and responsive.
+
+### UI Highlights
+
+* **Chat Interface** – Clean, user-friendly chat box for interacting with the travel assistant
+<img width="1236" height="1260" alt="image" src="https://github.com/user-attachments/assets/172033aa-ba5c-4118-874e-20481212f7e4" />
+
+
+* **Prompt → Answer Showcase**
+
+  ```
+  User: "What should I wear for a business trip to London in summer?"
+<img width="1230" height="759" alt="image" src="https://github.com/user-attachments/assets/6d16f5df-9043-412f-a089-ece79e1a9252" />
+
+
+
+* **Recommended Products Example**
+
+  ```
+  User: "Show me Eid gifts for Dubai"
+
+  ```
+<img width="1248" height="799" alt="image" src="https://github.com/user-attachments/assets/92d91751-7ef8-4ba3-b98c-387e5d82c611" />
+
+
+* **Dark Mode Support** – Sleek, traveler-friendly dark theme for night browsing
+<img width="1248" height="1253" alt="image" src="https://github.com/user-attachments/assets/c10a0d37-c72c-4273-977f-88bf9296f541" />
+
+
+
 ## Technology Stack
 
 | Component          | Technology                                     |
