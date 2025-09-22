@@ -10,11 +10,11 @@
 
 International travelers face significant challenges when shopping for their destinations:
 
-- **Cultural Insensitivity** - Lack of awareness about appropriate dress codes and customs
-- **Climate Mismatches** - Packing inappropriate clothing for seasonal weather conditions  
-- **Religious Considerations** - Inadvertently purchasing items unsuitable for conservative destinations
-- **Festival Blindness** - Missing opportunities for culturally relevant gifts and attire
-- **Regional Variations** - Overlooking city-specific climate differences within countries
+* **Cultural Insensitivity** - Lack of awareness about appropriate dress codes and customs
+* **Climate Mismatches** - Packing inappropriate clothing for seasonal weather conditions
+* **Religious Considerations** - Inadvertently purchasing items unsuitable for conservative destinations
+* **Festival Blindness** - Missing opportunities for culturally relevant gifts and attire
+* **Regional Variations** - Overlooking city-specific climate differences within countries
 
 ## Solution Overview
 
@@ -37,97 +37,152 @@ graph TB
 ## Key Features
 
 ### AI-Powered Intelligence
-- **Gemini 2.5 Integration** - Advanced natural language processing for intent understanding
-- **Seasonal Context Parsing** - Automatically detects winter/summer travel plans
-- **Cultural Awareness** - Built-in knowledge of dress codes for 15+ countries
-- **Festival Recognition** - Identifies cultural events and suggests appropriate items
+
+* **Gemini 2.5 Integration** - Advanced natural language processing for intent understanding
+* **Seasonal Context Parsing** - Automatically detects winter/summer travel plans
+* **Cultural Awareness** - Built-in knowledge of dress codes for 15+ countries
+* **Festival Recognition** - Identifies cultural events and suggests appropriate items
 
 ### Climate Intelligence
-- **Regional Weather Data** - City-specific climate information for accurate recommendations
-- **Seasonal Filtering** - Products automatically filtered by temperature and weather conditions
-- **Multi-Source Data** - Wikipedia climate scraping + cached weather APIs
-- **Temperature-Based Recommendations** - Cold weather gear vs. breathable summer clothing
+
+* **Regional Weather Data** - City-specific climate information for accurate recommendations
+* **Seasonal Filtering** - Products automatically filtered by temperature and weather conditions
+* **Multi-Source Data** - Wikipedia climate scraping + cached weather APIs
+* **Temperature-Based Recommendations** - Cold weather gear vs. breathable summer clothing
 
 ### Cultural Sensitivity Engine
-- **Model Context Protocol (MCP)** - Ethical AI filters for cultural appropriateness
-- **Conservative Destination Support** - Special filtering for Pakistan, Saudi Arabia, UAE, etc.
-- **Religious Site Guidelines** - Mosque, temple, and church dress code awareness
-- **Taboo Detection** - Automatically excludes culturally inappropriate items
+
+* **Model Context Protocol (MCP)** - Ethical AI filters for cultural appropriateness
+* **Conservative Destination Support** - Special filtering for Pakistan, Saudi Arabia, UAE, etc.
+* **Religious Site Guidelines** - Mosque, temple, and church dress code awareness
+* **Taboo Detection** - Automatically excludes culturally inappropriate items
 
 ### Smart Product Matching
-- **Hierarchical Recommendations** - Cultural priority → Regional climate → General suitability
-- **Enhanced Product Catalog** - 45+ products with cultural and climate metadata
-- **Filtering Pipeline** - Multi-stage filtering for cultural appropriateness
-- **Fallback Systems** - Graceful degradation when services are unavailable
+
+* **Hierarchical Recommendations** - Cultural priority → Regional climate → General suitability
+* **Enhanced Product Catalog** - 45+ products with cultural and climate metadata
+* **Filtering Pipeline** - Multi-stage filtering for cultural appropriateness
+* **Fallback Systems** - Graceful degradation when services are unavailable
 
 ## Technology Stack
 
-| Component | Technology |
-|-----------|------------|
-| **Backend** | Python Flask with async support |
-| **AI Engine** | Google Vertex AI (Gemini 2.5 Pro/Flash) |
-| **Data Sources** | Wikipedia API, Weather APIs, Cultural Database |
-| **Frontend** | Vanilla JavaScript with modern CSS |
-| **Caching** | JSON-based climate data caching |
-| **Error Handling** | Multi-layer fallback systems |
-| **Deployment** | Google Kubernetes Engine (GKE) |
+| Component          | Technology                                     |
+| ------------------ | ---------------------------------------------- |
+| **Backend**        | Python Flask with async support                |
+| **AI Engine**      | Google Vertex AI (Gemini 2.5 Pro/Flash)        |
+| **Data Sources**   | Wikipedia API, Weather APIs, Cultural Database |
+| **Frontend**       | Vanilla JavaScript with modern CSS             |
+| **Caching**        | JSON-based climate data caching                |
+| **Error Handling** | Multi-layer fallback systems                   |
+| **Deployment**     | Google Kubernetes Engine (GKE)                 |
 
 ## Prerequisites
 
-- Python 3.9+
-- Google Cloud Project (for Gemini AI)
-- Service Account Key for Vertex AI
-- Docker (for containerization)
-- kubectl (for GKE deployment)
+* Python 3.9+
+* Google Cloud Project (for Gemini AI)
+* Service Account Key for Vertex AI
+* Docker (for containerization)
+* kubectl (for GKE deployment)
 
 ## GKE Deployment
 
-### Container Configuration
-Our application is optimized for Google Kubernetes Engine with:
+Follow these steps to deploy on **Google Kubernetes Engine (GKE)**.
 
-- **Multi-service Architecture** - Frontend, Backend, Product Catalog services
-- **Horizontal Scaling** - Independent scaling of AI and catalog services
-- **Health Checks** - Built-in endpoints for K8s monitoring
-- **Configuration Management** - Environment-based config for different stages
+### 1. Prerequisites
 
-### Deploy to GKE
+Before starting, make sure you have:
+
+* A **Google Cloud account** with billing enabled
+* Installed tools:
+
+  * **Google Cloud SDK**
+  * **kubectl** (install via `gcloud components install kubectl`)
+* A Google Cloud project set:
+
+  ```bash
+  gcloud auth login
+  gcloud config set project <PROJECT_ID>
+  ```
+
+  Replace `<PROJECT_ID>` with your actual Google Cloud project ID.
+
+### 2. Clone the Repository
 
 ```bash
-# Build and push containers
-docker build -t gcr.io/YOUR-PROJECT/travel-chatbot-backend .
-docker push gcr.io/YOUR-PROJECT/travel-chatbot-backend
+git clone https://github.com/Uzi78/GKE_Hackathon.git
+cd GKE_Hackathon
+```
 
-docker build -t gcr.io/YOUR-PROJECT/travel-chatbot-frontend -f Dockerfile.frontend .
-docker push gcr.io/YOUR-PROJECT/travel-chatbot-frontend
+Create a `.env` file using `.env.example` and enter your API keys in the respective fields.
 
-# Apply Kubernetes manifests
-kubectl apply -f k8s/
+### 3. Create a GKE Cluster
 
-# Get external IP
-kubectl get services
+```bash
+# Create a Kubernetes cluster (adjust zone/machine type as needed)
+gcloud container clusters create gke-cluster \
+    --num-nodes=2 \
+    --zone=asia-south1-a \
+    --machine-type=e2-small \
+    --disk-type=pd-standard
+
+# Fetch cluster credentials
+gcloud container clusters get-credentials gke-cluster --zone=asia-south1-a
+```
+
+### 4. Build & Push the Docker Image
+
+```bash
+# From the project root
+gcloud builds submit --tag gcr.io/<PROJECT_ID>/hackathon-app:latest .
+```
+
+Replace `<PROJECT_ID>` with your Google Cloud project ID.
+
+### 5. Deploy to Kubernetes
+
+The Kubernetes manifests are located in the `/k8s` directory:
+
+```bash
+kubectl apply -f k8s/deployment.yaml
+kubectl apply -f k8s/service.yaml
+```
+
+### 6. Get the External IP
+
+```bash
+kubectl get service hackathon-service
+```
+
+Wait until the `EXTERNAL-IP` field shows an address, then open the app in your browser:
+
+```
+http://<EXTERNAL-IP>
 ```
 
 ### Scalability Features
-- **Async Processing** - Non-blocking API calls
-- **Caching Layers** - Reduced external API dependency  
-- **Graceful Degradation** - Fallback systems for service failures
-- **Load Balancing Ready** - Stateless service design
+
+* **Async Processing** – Non-blocking API calls
+* **Caching Layers** – Reduced external API dependency
+* **Graceful Degradation** – Fallback systems for service failures
+* **Load Balancing Ready** – Stateless service design
 
 ## Demo Scenarios
 
 ### Scenario 1: Winter Travel to Pakistan
+
 ```
 User: "What should I pack for Pakistan in winters?"
 
 Response:
 - Detects destination: Pakistan
-- Identifies season: Winter  
+- Identifies season: Winter
 - Applies cultural filters: Conservative dress codes
 - Recommends: Heavy winter coat, thermal layers, modest coverage
 - Cultural note: "Respectful of local Islamic traditions"
 ```
 
 ### Scenario 2: Summer Business Trip to Dubai
+
 ```
 User: "Business clothes for Dubai in summer"
 
@@ -138,29 +193,29 @@ Response:
 - Recommendations: Lightweight formal wear, long sleeves, modest cuts
 ```
 
-
 ### Comprehensive Test Queries
-- "What to pack for Pakistan in winters?"
-- "Summer clothes for Turkey"  
-- "Eid gifts for Dubai celebration"
-- "Business attire for Japan winter"
-- "Modest beachwear for conservative countries"
+
+* "What to pack for Pakistan in winters?"
+* "Summer clothes for Turkey"
+* "Eid gifts for Dubai celebration"
+* "Business attire for Japan winter"
+* "Modest beachwear for conservative countries"
 
 ## Business Impact
 
 ### For Travelers
-- 95% reduction in culturally inappropriate purchases
-- Improved cultural respect through education  
-- Climate-appropriate packing recommendations
-- Enhanced travel experience with local awareness
+
+* 95% reduction in culturally inappropriate purchases
+* Improved cultural respect through education
+* Climate-appropriate packing recommendations
+* Enhanced travel experience with local awareness
 
 ### For E-commerce
-- Higher conversion rates through relevant recommendations
-- Reduced returns from inappropriate/unsuitable items
-- Market expansion into culturally diverse regions
-- Brand reputation improvement through cultural sensitivity
 
-
+* Higher conversion rates through relevant recommendations
+* Reduced returns from inappropriate/unsuitable items
+* Market expansion into culturally diverse regions
+* Brand reputation improvement through cultural sensitivity
 
 ## Contributing
 
@@ -170,9 +225,9 @@ We welcome contributions to improve cultural accuracy and expand regional suppor
 
 This project was collaboratively developed for the GKE Turns 10 Hackathon by:
 
-- Muhammad Uzair Shahid
-- Talha Kausar  (https://github.com/raotalha71)
-- Muhammad Zabil Mehboob (https://github.com/MZabil)
+* Muhammad Uzair Shahid
+* Talha Kausar  ([https://github.com/raotalha71](https://github.com/raotalha71))
+* Muhammad Zabil Mehboob ([https://github.com/MZabil](https://github.com/MZabil))
 
 ## License
 
@@ -180,10 +235,10 @@ MIT License - Feel free to use and modify for your travel applications.
 
 ## Acknowledgments
 
-- **Google Cloud Vertex AI** - For powerful Gemini AI integration
-- **Wikipedia Community** - For comprehensive cultural and climate data  
-- **Cultural Consultants** - For sensitivity guidance and validation
-- **GKE Turns 10 Hackathon** - For the opportunity to showcase innovation
+* **Google Cloud Vertex AI** - For powerful Gemini AI integration
+* **Wikipedia Community** - For comprehensive cultural and climate data
+* **Cultural Consultants** - For sensitivity guidance and validation
+* **GKE Turns 10 Hackathon** - For the opportunity to showcase innovation
 
 ---
 
