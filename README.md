@@ -22,17 +22,8 @@ Our AI-powered chatbot revolutionizes travel shopping by providing **culturally-
 
 ## Architecture
 
-```mermaid
-graph TB
-    A[Frontend<br/>HTML/JS] --> B[Main Backend<br/>Flask API]
-    B --> C[Product Server<br/>Enhanced Catalog]
-    B --> D[AI Agent<br/>Gemini 2.5 Pro]
-    D --> E[Cultural Data Manager<br/>MCP Protocol]
-    
-    F[Wikipedia API] --> B
-    G[Weather APIs] --> B
-    H[Cultural Database] --> E
-```
+![ArchitectureDiagram](https://github.com/user-attachments/assets/af24a69d-3e27-43cb-9bfb-86a3c2daf136)
+
 
 ## Key Features
 
